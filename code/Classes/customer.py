@@ -16,4 +16,3 @@ class Customer(User):
 
     def get_uuid(self):
         return self.uuid
-
