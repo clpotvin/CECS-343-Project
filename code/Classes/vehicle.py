@@ -1,37 +1,37 @@
 class Vehicle:
-    def __init__(self, car_make: str, car_model: str, car_year: int, car_trim: str , car_license_plate: int, price: float, vehicle_status: str):
-        self.car_make = car_make
-        self.car_model = car_model
-        self.car_year = car_year
-        self.car_trim = car_trim
-        self.car_license_plate = car_license_plate
+    def __init__(self, car_make: str, car_model: str, car_year: int, car_trim: str, car_license_plate: int,
+                 price: float, vehicle_status: str):
+        self.make = car_make
+        self.model = car_model
+        self.year = car_year
+        self.trim = car_trim
+        self.license_plate = car_license_plate
         self.price = price
-        self.vehicle_status = vehicle_status
+        self.status = vehicle_status
 
     def set_rental_price(self, price: float):
-        self.rental_price = price
+        self.price = price
 
     def set_status(self, status: str):
         self.status = status
 
     def get_make(self):
-        return self.car_make
+        return self.make
 
     def get_model(self):
-        return self.car_model
+        return self.model
 
     def get_year(self):
-        return self.car_year
+        return self.year
 
     def get_trim(self):
-        return self.car_trim
+        return self.trim
 
     def get_license_plate(self):
-        return self.car_license_plate
+        return self.license_plate
 
     def get_rental_price(self):
-        return self.rental_price
+        return self.price
 
     def get_status(self):
-        return self.vehicle_status
-
+        return self.status
