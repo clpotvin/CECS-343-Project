@@ -1,10 +1,13 @@
 from vehicle import Vehicle
-class Fleet_Management:
+
+
+class FleetManagement:
     """Class that represents the fleet of the company
 
     Attributes:
          vehicles (list): A list containing vehicles in the fleet
     """
+
     def __init__(self):
         """Initialize an empty list of vehicles."""
         self.vehicles = []
@@ -22,7 +25,7 @@ class Fleet_Management:
         Returns:
             list: a list of vehicles that are available to rent
         """
-        return [vehicle for vehicle in self.vehicles if vehicle.get_status()== 'Available']
+        return [vehicle for vehicle in self.vehicles if vehicle.get_status() == 'Available']
 
     def rent_vehicle(self, license_plate):
         """Rent a vehicle that matches with its own license plate.
