@@ -10,7 +10,8 @@ class Vehicle:
         price (float): The price of the vehicle
         vehicle_status (str): Current status of the vehicle
     """
-    def __init__(self, car_make: str, car_model: str, car_year: int, car_trim: str , car_license_plate: int, price: float, vehicle_status: str):
+    def __init__(self, car_id: int, car_make: str, car_model: str, car_year: int, car_trim: str , car_license_plate: int, price: float, vehicle_status: str):
+        self.car_id = car_id
         self.car_make = car_make
         self.car_model = car_model
         self.car_year = car_year
