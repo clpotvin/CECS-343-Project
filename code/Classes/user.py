@@ -1,13 +1,14 @@
 class User:
-    def __init__(self, name, uuid):
+    def __init__(self, name='', uuid=0):
         self.name = name
-        self.uuid = uuid
+        if uuid == 0:
+            self.uuid = self.generate_uuid()
 
     def set_name(self, name):
         self.name = name
 
     def generate_uuid(self):
-        self.uuid = abs(hash(self.name))
+        return abs(hash(self.name)) % 1000000000
 
     def get_name(self):
         return self.name
