@@ -9,11 +9,22 @@ available_df = df[df['Status'] == 'Available']
 
 
 def check_availability(vehicle_id, start_date, end_date):
-    payload = {
-        "vehicle_id": vehicle_id,
-        "start_date": start_date,
-        "end_date": end_date
-    }
+    #payload = {
+        #"vehicle_id": vehicle_id,
+        #"start_date": start_date,
+        #"end_date": end_date
+    #}
+    fleet_df = pd.read_csv('view.csv')
+
+    # Filter the dataframe based on vehicle_id and availability status
+    availability_df = fleet_df[(fleet_df['Selected vehicle'] == selected_row) &
+                               (fleet_df['Status'] == 'Available')]
+
+    # Check if any row with 'Available' status exists for the selected vehicle
+    if not availability_df.empty:
+        return 'Available'
+    else:
+        return 'Not Available'
 
 
 layout = [
@@ -64,10 +75,10 @@ while True:
 
             availability_response = check_availability(selected_row, start_date, end_date)
 
-            if availability_response['Available']:
-                sg.popup(f'Vehicle {selected_row} is available for booking!')
+            if availability_response == 'Available':
+                sg.popup(f'Vehicle {selected_vehicle} is available for booking!')
             else:
-                sg.popup(f'Vehicle {selected_row} is not available for the selected dates.')
+                sg.popup(f'Vehicle {selected_vehicle} is not available for the selected dates.')
         except ValueError as ve:
             sg.popup(str(ve))
 
