@@ -56,3 +56,8 @@ class Vehicle:
         """Get the status of the vehicle"""
         return self.vehicle_status
 
+    def __repr__(self):
+        """Returns string of vehicle object in format for file reading/writing"""
+        return str(f"{self.car_id},{self.car_make},{self.car_model},{self.car_year},{self.car_trim},"
+                   f"{self.car_license_plate},{self.price},{self.vehicle_status}")
+

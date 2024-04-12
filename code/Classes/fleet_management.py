@@ -46,7 +46,7 @@ class FleetManagement:
             bool: True if the vehicle is returned. Otherwise, false
         """
         for i in self.vehicles:
-            if i.get_license_plate() == license_plate and vehicle.get_status() == 'Rented':
+            if i.get_license_plate() == license_plate and i.get_status() == 'Rented':
                 i.set_status('Available')
                 return True
         return False
