@@ -1,11 +1,14 @@
 import pandas as pd
-from .user import User
+from user import User
+import os
 
+current_path = os.path.abspath(os.path.dirname(__file__))
+file = os.path.join(current_path, "../Data/Users.csv")
 
 class UserController:
 
     def __init__(self):
-        self.user_data = pd.read_csv("CECS-343-Project/code/Data/Users")
+        self.user_data = pd.read_csv(file)
         self.users = [User(n[0] + ' ' + n[1]) for n in self.user_data.values]
 
     def new_user(self, d):
@@ -18,7 +21,7 @@ class UserController:
 
         df = pd.DataFrame.from_records(arr, columns=["First Name", "Last Name", "Username", "Hashed Password", "UUID"])
         self.user_data = pd.concat([self.user_data, df])
-        self.user_data.to_csv("CECS-343-Project/code/Data/Users", mode='w', index=False)
+        self.user_data.to_csv(file, mode='w', index=False)
         self.users.append(temp)
 
     def is_valid(self, username, password):

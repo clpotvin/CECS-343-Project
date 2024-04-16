@@ -1,5 +1,6 @@
 # IMPORTS
 from Classes.user_interface import UserInterface
+from Classes.fleet_interface import FleetInterface
 import pandas as pd
 
 # GLOBAL VARIABLES
@@ -8,9 +9,12 @@ import pandas as pd
 
 
 def main():
-    UI = UserInterface()
+    # UI = UserInterface()
+    # UI.run()
 
-    UI.run()
+    FI = FleetInterface()
+    FI.run()
+
     #pwd = hash("helloW0rld!")
 
     #if hash(input("Input password: ")) == pwd:
