@@ -19,18 +19,30 @@ class FleetController:
             if vehicle.car_license_plate == plate_number:
                 return vehicle
 
+    def search_by_id(self, id):
+        for vehicle in self.vehicles:
+            if vehicle.car_id == id:
+                return vehicle
+        return None
+
     def get_vehicle_index(self, index):
         return self.vehicle_list[index]
 
     def add_vehicle(self, data):
-        temp = Vehicle((data[0][0] + ' ' + data[0][1] + ' ' + data[0][2] + ' ' + data[0][3] + ' ' + data[0][4] + ' ' + data[0][5]))
-        arr = data
-        arr.append(temp.car_license_plate)
-        arr = [arr]
-        print(arr)
+        if self.search_by_id(data[0]):
+            print("Cannot add vehicle. There is already a vehicle with the existing id.")
+            return
 
-        df = pd.DataFrame.from_records(arr, columns=["First Name", "Last Name", "Username", "Hashed Password", "UUID"])
+        temp = Vehicle(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7])
+        data = [data]
+        print(data)
+        self.vehicles.append(temp)
+        print("Adding", data)
+
+        df = pd.DataFrame.from_records(data, columns=["ID", "Make", "Model", "Year", "Trim", "License Plate", "Price", "Status"])
         self.vehicle_data = pd.concat([self.vehicle_data, df])
         self.vehicle_data.to_csv(file, mode='w', index=False)
-        self.vehicle_data.append(temp)
+        self.vehicles.append(temp)
+
+        print("Sucessfully added vehicle.")
 
