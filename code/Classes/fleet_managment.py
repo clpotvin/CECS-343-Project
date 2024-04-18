@@ -1,5 +1,5 @@
 from vehicle import Vehicle
-
+import datetime
 
 class FleetManagement:
     """Class that represents the fleet of the company
@@ -50,3 +50,9 @@ class FleetManagement:
                 i.set_status('Available')
                 return True
         return False
+
+
+    def search_by_plate(self, plate_number):
+        for vehicle in self.vehicles:
+            if vehicle.license_plate == plate_number:
+                return vehicle
