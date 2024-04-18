@@ -18,10 +18,6 @@ main_layout = [
     [sg.Button('Close')],
 ]
 
-layout2 = [
-
-]
-
 add_car_layout = [[sg.Text('Add a New Vehicle', font='Helvetica 20 bold underline')],
        [sg.VPush()],
        [sg.Text('Make:', font='Helvetica 16 bold', key='-AV_MAKE-'), sg.Push(),
