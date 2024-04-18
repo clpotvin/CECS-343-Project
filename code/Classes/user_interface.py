@@ -2,7 +2,7 @@ import datetime
 
 import PySimpleGUI as sg
 import hashlib
-from .user_controller import UserController
+from user_controller import UserController
 
 layout1 = [[sg.Text('Login to Club Penguin Car Rentals', font='Helvetica 20 bold underline')],
            [sg.VPush()],
