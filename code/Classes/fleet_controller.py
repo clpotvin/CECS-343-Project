@@ -12,7 +12,7 @@ class FleetController:
     def __init__(self):
         self.vehicle_data = pd.read_csv(file)
         self.vehicle_list = self.vehicle_data.values.tolist()
-        self.vehicles = [Vehicle(n[0], n[1], n[2], n[3], n[4], -1, n[5]) for n in self.vehicle_data.values]
+        self.vehicles = [Vehicle(n[0], n[1], n[2], n[3], n[4], n[5], n[6]) for n in self.vehicle_data.values]
 
     def search_by_plate(self, plate_number):
         for vehicle in self.vehicles:
