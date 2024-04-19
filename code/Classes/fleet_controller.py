@@ -38,6 +38,37 @@ class FleetController:
         """Remove vehicle from the list of the fleet"""
         self.vehicles.remove(vehicle)
 
+    def delete_vehicle(self, plate):
+        vehicle = self.search_by_plate(plate)
+        if not vehicle:
+            print(f"Cannot find vehicle with matching license plate {plate}.")
+            return
+
+        df = self.vehicle_data
+        df = df.drop(df[df['ID'] == id].index)
+        self.vehicle_data = df
+        self.vehicle_data.to_csv("CECS-343-Project/code/Data/Vehicles.csv", mode='w', index=False)
+        self.remove_vehicle(vehicle)
+
+        print("Sucessfully removed vehicle.")
+    def new_vehicle(self, data):
+        if self.search_by_plate(data[0]):
+            print("Cannot add vehicle. There is already a vehicle with the existing license plate.")
+            return
+
+        temp = Vehicle(data[0], data[1], data[2], data[3], data[4], data[5])
+        data = [data]
+        print(data)
+        self.vehicles.append(temp)
+        print("Adding", data)
+
+        df = pd.DataFrame.from_records(data, columns=["Make", "Model", "Trim", "Year", "License Plate", "Status"])
+        self.vehicle_data = pd.concat([self.vehicle_data, df])
+        self.vehicle_data.to_csv("CECS-343-Project/code/Data/Vehicles.csv", mode='w', index=False)
+        self.vehicles.append(temp)
+
+        print("Sucessfully added vehicle.")
+
     def get_available_vehicles(self):
         """Get a list of available vehicles
         Returns:
@@ -78,6 +109,7 @@ class FleetController:
         for vehicle in self.vehicles:
             if vehicle.license_plate == plate_number:
                 return vehicle
+        return None
 
     def check_availability(self, license_plate, start_date, end_date):
         start_date_obj = date_str_to_date_obj(start_date)
