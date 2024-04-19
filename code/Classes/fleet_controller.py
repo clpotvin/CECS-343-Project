@@ -25,6 +25,21 @@ class FleetController:
                 return vehicle
         return None
 
+    def remove_vehicle(self, id):
+        vehicle = self.search_by_id(id)
+        if not vehicle:
+            print("Cannot find vehicle with matching id.")
+            return
+
+        df = self.vehicle_data
+        df = df.drop(df[df['ID'] == id].index)
+        self.vehicle_data = df
+        self.vehicle_data.to_csv(file, mode='w', index=False)
+        self.vehicles.remove(vehicle)
+
+        print("Sucessfully removed vehicle.")
+
+
     def get_vehicle_index(self, index):
         return self.vehicle_list[index]
 

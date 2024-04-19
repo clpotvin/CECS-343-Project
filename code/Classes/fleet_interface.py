@@ -8,6 +8,7 @@ FILE USED FOR TESTING THE FLEET MANAGEMENT WINDOW
 
 fc = FleetController()
 fleet_data = fc.vehicle_data
+print(fleet_data)
 
 # Convert DataFrame to list of lists for Table widget
 data = fc.vehicle_list
@@ -60,6 +61,7 @@ class FleetInterface:
             print(event, values)
             if event == sg.WINDOW_CLOSED or event == 'Close':
                 break
+
             if event == 'Add':
                 window[f'-COL{1}-'].update(visible=False)
                 window[f'-COL{2}-'].update(visible=True)
@@ -75,12 +77,19 @@ class FleetInterface:
                 else:
                     print("Please fill in all required fields.")
 
+            if event == 'Remove':
+                if current_vehicle:
+                    fc.remove_vehicle(current_vehicle[0])
+                    current_vehicle = None
+                else:
+                    print("Please select a vehicle.")
+
             if isinstance(event, tuple):
                 if event[0] == 0:
                     row_index = (event[2][0])
                     if row_index:
                         current_vehicle = fc.get_vehicle_index(row_index)
-                    print(current_vehicle)
+                    print("Selected vehicle:", current_vehicle)
 
 
         window.close()
