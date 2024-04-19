@@ -1,12 +1,11 @@
 class Vehicle:
-    def __init__(self, car_make: str, car_model: str, car_year: int, car_trim: str, car_license_plate: int,
-                 price: float, vehicle_status: str):
+    def __init__(self, car_make: str, car_model: str, car_trim: str, car_year: int, car_license_plate: int,
+                 vehicle_status: str):
         self.make = car_make
         self.model = car_model
         self.year = car_year
         self.trim = car_trim
         self.license_plate = car_license_plate
-        self.price = price
         self.status = vehicle_status
 
     def set_rental_price(self, price: float):
