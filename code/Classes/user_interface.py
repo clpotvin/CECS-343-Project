@@ -67,21 +67,26 @@ edit_vehicle = []
 
 new_vehicle = [[sg.Text('Add a New Vehicle', font='Helvetica 20 bold underline')],
        [sg.VPush()],
-       [sg.Text('Make:', font='Helvetica 14 bold', key='-AV_MAKE-'), sg.Push(),
-        sg.InputText(font='Helvetica 14')],
-       [sg.Text('Model:', font='Helvetica 14 bold', key='-AV_MODEL-'), sg.Push(),
-        sg.InputText(font='Helvetica 14')],
-       [sg.Text('Trim:', font='Helvetica 14 bold', key='-AV_TRIM-'), sg.Push(),
-        sg.InputText(font='Helvetica 14')],
-       [sg.Text('Year:', font='Helvetica 14 bold', key='-AV_YEAR-'), sg.Push(),
-        sg.InputText(font='Helvetica 14')],
-       [sg.Text('License Plate:', font='Helvetica 14 bold', key='-AV_LP-'), sg.Push(),
-        sg.InputText(font='Helvetica 14')],
-       [sg.Text('Status:', font='Helvetica 14 bold', key='-AV_STATUS-'), sg.Push(),
-        sg.InputText(font='Helvetica 14')],
+       [sg.Text('Make:', font='Helvetica 14 bold'), sg.Push(),
+        sg.InputText(font='Helvetica 14', key='-AV_MAKE-')],
+       [sg.Text('Model:', font='Helvetica 14 bold'), sg.Push(),
+        sg.InputText(font='Helvetica 14', key='-AV_MODEL-')],
+       [sg.Text('Trim:', font='Helvetica 14 bold'), sg.Push(),
+        sg.InputText(font='Helvetica 14', key='-AV_TRIM-')],
+       [sg.Text('Year:', font='Helvetica 14 bold'), sg.Push(),
+        sg.InputText(font='Helvetica 14', key='-AV_YEAR-')],
+       [sg.Text('License Plate:', font='Helvetica 14 bold'), sg.Push(),
+        sg.InputText(font='Helvetica 14', key='-AV_LP-')],
+       [sg.Text('Status:', font='Helvetica 14 bold'), sg.Push(),
+        sg.InputText(font='Helvetica 14', key='-AV_STATUS-')],
        [sg.VPush()],
        [sg.Button('Go Back', font='Helvetica 14', key='-AV_BACK-'),
-        sg.Push(), sg.Button('Confirm', font='Helvetica 14', key='-AV_CONFIRM-')]]
+        sg.Push(), sg.Button('Confirm', font='Helvetica 14', key='-AV_CONFIRM-')],
+       [sg.Text('Error: Please enter ALL fields before confirming.', font='Helvetica 14', visible=False, key='-AV_ERROR-')]]
+
+new_vehicle_success = [[sg.Text('Vehicle Creation Success!', font='Helvetica 30 bold')],
+                    [sg.Push(), sg.Text('✅', font='Helvetica 150'), sg.Push()],
+                    [sg.Push(), sg.Button('Go to Fleet Viewer', font='Helvetica 14', key='-BT_MGR-'), sg.Push()]]
 
 available_vehicles = [[sg.Text('Available Vehicles')],
                       [sg.Table(values=fc.available_vehicles[['Make', 'Model','Trim', 'Year', 'Status']].values.tolist(),
@@ -123,7 +128,7 @@ layout = [[sg.Column(login, key='-LGN-'), sg.Column(new_user, visible=False, key
            sg.Column(new_user_success, visible=False, key='-NUSRS-'),
            sg.Column(manager_view, key='-MGR-', visible=False),
            sg.Column(employee_view, key='-EMP-', visible=False), sg.Column(customer_view, key='-CST-', visible=False),
-           sg.Column(new_vehicle, key='-NVV-', visible=False)]]
+           sg.Column(new_vehicle, key='-NVV-', visible=False), sg.Column(new_vehicle_success, visible=False, key='-NVSRS-')]]
 
 window = sg.Window('Club Penguin Car Rentals', layout)
 
@@ -219,11 +224,20 @@ class UserInterface:
                 window[f'-MGR-'].update(visible=False)
                 window[f'-NVV-'].update(visible=True)
             if event == '-AV_CONFIRM-':
-                if values[1] and values[2] and values[3] and values[4] and values[5] and values[6] != '':
-                    data = [values[1], values[2], values[3], values[4], values[5], values[6]]
+                if values['-AV_MAKE-'] and values['-AV_MODEL-'] and values['-AV_TRIM-'] and\
+                   values['-AV_YEAR-'] and values['-AV_LP-'] and values['-AV_STATUS-'] != '':
+                    data = [values['-AV_MAKE-'], values['-AV_MODEL-'], values['-AV_TRIM-'],
+                            values['-AV_YEAR-'], values['-AV_LP-'], values['-AV_STATUS-']]
                     fc.new_vehicle(data)
+                    window[f'-NVV-'].update(visible=False)
+                    window[f'-NVSRS-'].update(visible=True)
                 else:
-                    print("Please fill in all required fields.")
+                    print("Please enter all required fields first.")
+                    window[f'-AV_ERROR-'].update(visible=False)
+                    window[f'-AV_ERROR-'].update(visible=True)
+            if event == '-BT_MGR-':
+                window[f'-NVSRS-'].update(visible=False)
+                window[f'-MGR-'].update(visible=True)
             if event == '-AV_BACK-':
                 window[f'-NVV-'].update(visible=False)
                 window[f'-MGR-'].update(visible=True)

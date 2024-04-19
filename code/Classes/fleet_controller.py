@@ -51,8 +51,9 @@ class FleetController:
         self.remove_vehicle(vehicle)
 
         print("Sucessfully removed vehicle.")
+
     def new_vehicle(self, data):
-        if self.search_by_plate(data[0]):
+        if self.search_by_plate(data[4]):
             print("Cannot add vehicle. There is already a vehicle with the existing license plate.")
             return
 
