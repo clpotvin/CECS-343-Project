@@ -103,7 +103,7 @@ class UserInterface:
         while True:
             event, values = window.read()
             print(event, values)
-            if event in (None, '-EX1-', '-EX2-'):
+            if event in (None, '-EX1-', '-EX2-', '-EX3-'):
                 break
 
             # LOGIN SCREEN EVENTS

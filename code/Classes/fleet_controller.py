@@ -24,7 +24,7 @@ class FleetController:
     def __init__(self):
         """Initialize an empty list of vehicles."""
         self.vehicle_data = pd.read_csv("CECS-343-Project/code/Data/Vehicles.csv")
-        self.vehicles = [Vehicle(n[0], n[1], n[2], n[3], n[4], n[5]) for n in self.vehicle_data.values]
+        self.vehicles = [Vehicle(n[0], n[1], n[2], n[3], n[4], n[5], 0) for n in self.vehicle_data.values]
         self.available_vehicles = self.vehicle_data[self.vehicle_data['Status'] == 'Available']
         self.reservation_data = pd.read_csv("CECS-343-Project/code/Data/Reservations.csv")
         self.reservations = [Reservation(n[0], self.search_by_plate(n[1]), n[2], date_str_to_date_obj(n[3]),
