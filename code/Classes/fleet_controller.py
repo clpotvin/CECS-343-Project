@@ -22,7 +22,7 @@ class FleetController:
     """
 
     def __init__(self):
-        """Initialize an empty list of vehicles."""
+        """Initialize all class data members."""
         self.vehicle_data = pd.read_csv("CECS-343-Project/code/Data/Vehicles.csv")
         self.vehicles = [Vehicle(n[0], n[1], n[2], n[3], n[4], n[5]) for n in self.vehicle_data.values]
         self.available_vehicles = self.vehicle_data[self.vehicle_data['Status'] == 'Available']
