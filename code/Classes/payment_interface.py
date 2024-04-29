@@ -1,4 +1,4 @@
-from Classes.payment_controller import PaymentController
+from .payment_controller import PaymentController
 import PySimpleGUI as sg
 import pandas as pd
 

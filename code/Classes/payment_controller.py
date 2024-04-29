@@ -3,8 +3,8 @@
 # - Spreadsheet should have ongoing total expenses and revenues
 # - This class should be able to read from the spreadsheet into a data structure, which can then be used to display in the GUI
 
-from Classes.expense_payment import ExpensePayment
-from Classes.rental_payment import RentalPayment
+from .expense_payment import ExpensePayment
+from .rental_payment import RentalPayment
 import pandas as pd
 import os
 
