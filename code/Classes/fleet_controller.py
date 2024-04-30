@@ -93,7 +93,7 @@ class FleetController:
         self.vehicle_data = df
         self.vehicle_data.to_csv("CECS-343-Project/code/Data/Vehicles.csv", mode='w', index=False)
 
-        print("Sucessfully removed vehicle.")
+        print("Sucessfully updated vehicle.")
 
     def get_available_vehicles(self):
         """Get a list of available vehicles

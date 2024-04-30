@@ -43,7 +43,7 @@ view_whole_fleet = [[sg.Text('All Vehicles')],
                                 def_col_width=15,
                                 justification='center',
                                 key='-TABLE1-', enable_events=True)],
-                      [sg.Text('Selected Vehicle:'), sg.Text(size=(20, 1), key='-SELECTED1-', enable_events=True, visible=True)],
+                      [sg.Text('Selected Vehicle:'), sg.Text(size=(80, 1), key='-SELECTED1-', enable_events=True, visible=True)],
                  [sg.InputText(font='Helvetica 14', size=[30, 1], key='-VF_MAKE-'),
                   sg.InputText(font='Helvetica 14', size=[30, 1], key='-VF_MODEL-')],
                  [sg.InputText(font='Helvetica 14', size=[30, 1], key='-VF_TRIM-'),
@@ -212,14 +212,15 @@ class UserInterface:
 
             # ALL VEHICLES EVENT
             if event == '-TABLE1-':
-                selected_row = values['-TABLE1-'][0]
-                selected_vehicle = fc.vehicle_data.values[selected_row]
-                window['-SELECTED1-'].update(f"{selected_vehicle[0]} -  {selected_vehicle[1]} - {selected_vehicle[2]}")
-                window['-VF_MAKE-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][0])
-                window['-VF_MODEL-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][1])
-                window['-VF_TRIM-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][2])
-                window['-VF_YEAR-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][3])
-                window['-VF_STATUS-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][5])
+                if values['-TABLE1-']:
+                    selected_row = values['-TABLE1-'][0]
+                    selected_vehicle = fc.vehicle_data.values[selected_row]
+                    window['-SELECTED1-'].update(f"{selected_vehicle[0]} -  {selected_vehicle[1]} - {selected_vehicle[2]}")
+                    window['-VF_MAKE-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][0])
+                    window['-VF_MODEL-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][1])
+                    window['-VF_TRIM-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][2])
+                    window['-VF_YEAR-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][3])
+                    window['-VF_STATUS-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][5])
             if event == '-VF_ADD-':
                 window[f'-MGR-'].update(visible=False)
                 window[f'-NVV-'].update(visible=True)
@@ -231,6 +232,8 @@ class UserInterface:
                     fc.new_vehicle(data)
                     window[f'-NVV-'].update(visible=False)
                     window[f'-NVSRS-'].update(visible=True)
+                    window['-TABLE1-'].update(
+                        values=fc.vehicle_data[['Make', 'Model', 'Trim', 'Year', 'Status']].values.tolist())
                 else:
                     print("Please enter all required fields first.")
                     window[f'-AV_ERROR-'].update(visible=False)
@@ -245,8 +248,12 @@ class UserInterface:
                 if values["-TABLE1-"]:
                     plate = fc.get_plate_by_index(values["-TABLE1-"][0])
                     fc.delete_vehicle(plate)
+                    window['-TABLE1-'].update(
+                        values=fc.vehicle_data[['Make', 'Model', 'Trim', 'Year', 'Status']].values.tolist())
+                    window['-SELECTED1-'].update(f"Successfully removed vehicle.")
                 else:
                     print('table not selected')
+                    window['-SELECTED1-'].update(f"Please select a row before removing.")
             if event == '-VF_UPDATE-':
                 if values["-TABLE1-"]:
                     plate = fc.get_plate_by_index(values["-TABLE1-"][0])
@@ -255,10 +262,14 @@ class UserInterface:
                         data = [values['-VF_MAKE-'], values['-VF_MODEL-'], values['-VF_TRIM-'],
                                 values['-VF_YEAR-'], plate, values['-VF_STATUS-']]
                         fc.update_vehicle(data)
+                        window['-TABLE1-'].update(values=fc.vehicle_data[['Make', 'Model','Trim', 'Year', 'Status']].values.tolist())
+                        window['-SELECTED1-'].update(f"Successfully updated vehicle. Please select another row to make further updates.")
                     else:
                         print('stuff should be not empty')
                 else:
                     print('table not selected')
+                    window['-SELECTED1-'].update(f"Please select a row before updating.")
+
 
 
 
