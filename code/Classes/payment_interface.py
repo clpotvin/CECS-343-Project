@@ -10,9 +10,9 @@ rental_data = pc.rental_data
 layout1 = [
     [sg.Text('Payments', font='Helvetica 20 bold underline', justification='center')],
     [sg.Table(values=pc.expense_list, headings=expense_data.columns.tolist(), auto_size_columns=False,
-              max_col_width=25, justification='center', enable_click_events=True),
+              max_col_width=25, justification='center', enable_click_events=True, key='-TABLE1-'),
      sg.Table(values=pc.rental_list, headings=rental_data.columns.tolist(), auto_size_columns=False,
-              max_col_width=25, justification='center', enable_click_events=True)],
+              max_col_width=25, justification='center', enable_click_events=True,key='-TABLE2-')],
     [sg.Button('Add Rental Payment', font='Helvetica 14',),
      sg.Button('Add Expense Payment', font='Helvetica 14')],
     [sg.Button('Close', font='Helvetica 14')]
@@ -40,18 +40,34 @@ layout3 = [
      sg.InputText(font='Helvetica 14', size=[30, 1])],
     [sg.Text('REASON:', font='Helvetica 16 bold', key='-EP_RES-'), sg.Push(),
      sg.InputText(font='Helvetica 14', size=[30, 1]), sg.Push()],
-    [sg.Button('Enter Payment', font='Helvetica 14',key='-EP_ENTER-'),sg.Push(),
+    [sg.Button('Enter Payment', font='Helvetica 14',key='-EP_ENTER-'), sg.Push(),
      sg.Button('Back', font='Helvetica 14', key='-EP_BACK-')]
+]
+
+layout4 = [
+    [sg.Text('Thank you for your purchase!', font='Helvetica 20 bold')],
+    [sg.Text('UUID:', font='Helvetica 20 bold'), sg.Push(),
+     sg.Text(pc.rental_list[-1][0], font='Helvetica 20 bold', key='-P_UUID-')],
+    [sg.Text('Amount:', font='Helvetica 20 bold'), sg.Push(),
+     sg.Text(pc.rental_list[-1][1], font='Helvetica 20 bold', key='-P_AMOUNT-')],
+    [sg.Text('Date:', font='Helvetica 20 bold'), sg.Push(),
+     sg.Text(pc.rental_list[-1][2], font='Helvetica 20 bold', key='-P_DATE-')],
+    [sg.Text('License Plate:', font='Helvetica 20 bold'), sg.Push(),
+     sg.Text(pc.rental_list[-1][3], font='Helvetica 20 bold', key='-P_PLATE-')],
+    [sg.Button('Continue', font='Helvetica 20 bold', key='-P_CON-')]
+
 ]
 
 layout = [[sg.Column(layout1, key='-COL1-'),
            sg.Column(layout2, visible=False, key='-COL2-'),
-           sg.Column(layout3, visible=False, key='-COL3-')]]
+           sg.Column(layout3, visible=False, key='-COL3-'),
+           sg.Column(layout4, visible=False, key='-COL4-')]]
 window = sg.Window('Club Penguin Car Rentals', layout)
 
 class PaymentInterface:
     def run(self):
         while True:
+
             event, values = window.read()
             print(event, values)
             if event == sg.WINDOW_CLOSED or event == 'Close':
@@ -73,18 +89,32 @@ class PaymentInterface:
                 window[f'-COL{1}-'].update(visible=True)
                 window[f'-COL{3}-'].update(visible=False)
 
+            if event == '-P_CON-':
+                window[f'-COL{1}-'].update(visible=True)
+                window[f'-COL{4}-'].update(visible=False)
+
             if event == '-RP_ENTER-':
-                if values[2] and values[3] and values[4] and values[5] !='':
-                    data = [values[2], values[3], values[4], values[5]]
+                if values[0] and values[1] and values[2] and values[3] != '':
+                    data = [values[0], values[1], values[2], values[3]]
                     pc.new_rental(data)
+                    window['-TABLE2-'].update(values=pc.rental_data.values.tolist())
+
+                    window['-P_UUID-'].update(pc.rental_list[-1][0])
+                    window['-P_AMOUNT-'].update(pc.rental_list[-1][1])
+                    window['-P_DATE-'].update(pc.rental_list[-1][2])
+                    window['-P_PLATE-'].update(pc.rental_list[-1][3])
+                    window[f'-COL{4}-'].update(visible=True)
+                    window[f'-COL{2}-'].update(visible=False)
+
                 else:
                     print("please fill in all required fields.")
 
             if event == '-EP_ENTER-':
-                if values[6] and values[7] and values[8] !='':
-                    data = [values[6], values[7], values[8]]
+                if values[4] and values[5] and values[6] != '':
+                    data = [values[4], values[5], values[6]]
                     pc.new_expense(data)
+                    window['-TABLE1-'].update(values=pc.expense_data.values.tolist())
+
                 else:
                     print("please fill in all required fields.")
-
 

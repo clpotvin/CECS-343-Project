@@ -1,5 +1,6 @@
 # IMPORTS
 from Classes.payment_interface import PaymentInterface
+#from Classes.user_interface import UserInterface
 
 # GLOBAL VARIABLES
 
