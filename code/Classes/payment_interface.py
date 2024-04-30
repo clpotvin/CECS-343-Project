@@ -1,6 +1,6 @@
 from .payment_controller import PaymentController
 import PySimpleGUI as sg
-import pandas as pd
+
 
 pc = PaymentController()
 expense_data = pc.expense_data
@@ -12,7 +12,7 @@ layout1 = [
     [sg.Table(values=pc.expense_list, headings=expense_data.columns.tolist(), auto_size_columns=False,
               max_col_width=25, justification='center', enable_click_events=True, key='-TABLE1-'),
      sg.Table(values=pc.rental_list, headings=rental_data.columns.tolist(), auto_size_columns=False,
-              max_col_width=25, justification='center', enable_click_events=True,key='-TABLE2-')],
+              max_col_width=25, justification='center', enable_click_events=True, key='-TABLE2-')],
     [sg.Button('Add Rental Payment', font='Helvetica 14',),
      sg.Button('Add Expense Payment', font='Helvetica 14')],
     [sg.Button('Close', font='Helvetica 14')]
@@ -28,7 +28,7 @@ layout2 = [
      sg.InputText(font='Helvetica 14', size=[30, 1])],
     [sg.Text('RESERVATION:', font='Helvetica 16 bold', key='-RP_RES-'), sg.Push(),
      sg.InputText(font='Helvetica 14', size=[30, 1]), sg.Push()],
-    [sg.Button('Enter Payment', font='Helvetica 14',key='-RP_ENTER-'),sg.Push(),
+    [sg.Button('Enter Payment', font='Helvetica 14', key='-RP_ENTER-'), sg.Push(),
      sg.Button('Back', font='Helvetica 14', key='-RP_BACK-')]
 ]
 
@@ -40,7 +40,7 @@ layout3 = [
      sg.InputText(font='Helvetica 14', size=[30, 1])],
     [sg.Text('REASON:', font='Helvetica 16 bold', key='-EP_RES-'), sg.Push(),
      sg.InputText(font='Helvetica 14', size=[30, 1]), sg.Push()],
-    [sg.Button('Enter Payment', font='Helvetica 14',key='-EP_ENTER-'), sg.Push(),
+    [sg.Button('Enter Payment', font='Helvetica 14', key='-EP_ENTER-'), sg.Push(),
      sg.Button('Back', font='Helvetica 14', key='-EP_BACK-')]
 ]
 
@@ -63,6 +63,7 @@ layout = [[sg.Column(layout1, key='-COL1-'),
            sg.Column(layout3, visible=False, key='-COL3-'),
            sg.Column(layout4, visible=False, key='-COL4-')]]
 window = sg.Window('Club Penguin Car Rentals', layout)
+
 
 class PaymentInterface:
     def run(self):
@@ -117,4 +118,3 @@ class PaymentInterface:
 
                 else:
                     print("please fill in all required fields.")
-
