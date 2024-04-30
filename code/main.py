@@ -7,13 +7,12 @@ import pandas as pd
 
 # FUNCTIONS
 
+import os
+
 
 def main():
-    # UI = UserInterface()
-    # UI.run()
-
-    FI = FleetInterface()
-    FI.run()
+    UI = UserInterface()
+    UI.run()
 
     #pwd = hash("helloW0rld!")
 

@@ -49,8 +49,8 @@ view_whole_fleet = [[sg.Text('All Vehicles')],
                  [sg.InputText(font='Helvetica 14', size=[30, 1], key='-VF_TRIM-'),
                   sg.InputText(font='Helvetica 14', size=[30, 1], key='-VF_YEAR-')],
                  [sg.InputText(font='Helvetica 14', size=[30, 1], key='-VF_STATUS-')],
-                    [sg.Button('Update', key='-UPDATE1-'), sg.Button('Remove', key='-REMOVE1-'), sg.Push(),
-                     sg.Button('Add New Vehicle', key='-ADD1-')]]
+                    [sg.Button('Update', key='-VF_UPDATE-'), sg.Button('Remove', key='-VF_REMOVE-'), sg.Push(),
+                     sg.Button('Add New Vehicle', key='-VF_ADD-')]]
 
 view_accounts = [[sg.Table(headings=uc.get_user_data().columns.tolist(), values=uc.get_user_data().values.tolist(),
                            key='-VAcc-', font='Helvetica 14', enable_click_events=True)],
@@ -220,7 +220,7 @@ class UserInterface:
                 window['-VF_TRIM-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][2])
                 window['-VF_YEAR-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][3])
                 window['-VF_STATUS-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][5])
-            if event == '-ADD1-':
+            if event == '-VF_ADD-':
                 window[f'-MGR-'].update(visible=False)
                 window[f'-NVV-'].update(visible=True)
             if event == '-AV_CONFIRM-':
@@ -241,6 +241,27 @@ class UserInterface:
             if event == '-AV_BACK-':
                 window[f'-NVV-'].update(visible=False)
                 window[f'-MGR-'].update(visible=True)
+            if event == '-VF_REMOVE-':
+                if values["-TABLE1-"]:
+                    plate = fc.get_plate_by_index(values["-TABLE1-"][0])
+                    fc.delete_vehicle(plate)
+                else:
+                    print('table not selected')
+            if event == '-VF_UPDATE-':
+                if values["-TABLE1-"]:
+                    plate = fc.get_plate_by_index(values["-TABLE1-"][0])
+                    if values['-VF_MAKE-'] and values['-VF_MODEL-'] and values['-VF_TRIM-'] and \
+                            values['-VF_YEAR-'] and plate and values['-VF_STATUS-'] != '':
+                        data = [values['-VF_MAKE-'], values['-VF_MODEL-'], values['-VF_TRIM-'],
+                                values['-VF_YEAR-'], plate, values['-VF_STATUS-']]
+                        fc.update_vehicle(data)
+                    else:
+                        print('stuff should be not empty')
+                else:
+                    print('table not selected')
+
+
+
 
 
             # AVAILABLE VEHICLES EVENTS
