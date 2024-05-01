@@ -4,9 +4,11 @@ import PySimpleGUI as sg
 import hashlib
 from .user_controller import UserController
 from .fleet_controller import FleetController
+from .payment_controller import PaymentController
 
 uc = UserController()
 fc = FleetController()
+pc = PaymentController()
 
 big_bold = 'Helvetica 16 bold'
 med_bold = 'Helvetica 14 bold'
@@ -112,9 +114,30 @@ available_vehicles = [[sg.Text('Available Vehicles')],
 
 rent_vehicle = []
 
-payment_page = []
+payment_page = [
+    [sg.Text('Thank you for your purchase!', font='Helvetica 20 bold')],
+    [sg.Text('UUID:', font='Helvetica 20 bold'), sg.Push(),
+     sg.Text(pc.rental_list[-1][0], font='Helvetica 20 bold', key='-P_UUID-')],
+    [sg.Text('Amount:', font='Helvetica 20 bold'), sg.Push(),
+     sg.Text(pc.rental_list[-1][1], font='Helvetica 20 bold', key='-P_AMOUNT-')],
+    [sg.Text('Date:', font='Helvetica 20 bold'), sg.Push(),
+     sg.Text(pc.rental_list[-1][2], font='Helvetica 20 bold', key='-P_DATE-')],
+    [sg.Text('License Plate:', font='Helvetica 20 bold'), sg.Push(),
+     sg.Text(pc.rental_list[-1][3], font='Helvetica 20 bold', key='-P_PLATE-')],
+    [sg.Button('Continue', font='Helvetica 20 bold', key='-P_CON-')]
 
-financial_view = []
+]
+
+financial_view = [
+    [sg.Text('Payments', font='Helvetica 20 bold underline', justification='center')],
+    [sg.Table(values=pc.expense_list, headings=pc.expense_data.columns.tolist(), auto_size_columns=False,
+              max_col_width=25, justification='center', enable_click_events=True, key='-FIN_TAB1-'),
+     sg.Table(values=pc.rental_list, headings=pc.rental_data.columns.tolist(), auto_size_columns=False,
+              max_col_width=25, justification='center', enable_click_events=True, key='-FIN_TAB2-')],
+    #[sg.Button('Add Rental Payment', font='Helvetica 14',),
+    # sg.Button('Add Expense Payment', font='Helvetica 14')],
+    #[sg.Button('Close', font='Helvetica 14')]
+]
 
 view = [[sg.TabGroup([[sg.Tab("View Fleet", view_whole_fleet, key='-VF-'),
                        sg.Tab("View Available Vehicles", available_vehicles, key='-VAV-'),
@@ -128,6 +151,7 @@ layout = [[sg.Column(login_screen, visible=True, key='-LOGIN-'),
            sg.Column(new_user_success, visible=False, key='-NUSRS-'),
            sg.Column(new_vehicle, key='-NVV-', visible=False),
            sg.Column(new_vehicle_success, visible=False, key='-NVSRS-'),
+           sg.Column(payment_page, key='-PAY_PAGE-', visible=False),
            sg.Column(view, key='-VIEW-', visible=False)]]
 
 window = sg.Window('Club Penguin Car Rentals', layout,finalize=True)
@@ -289,8 +313,18 @@ class UserInterface:
                 except ValueError as ve:
                     sg.popup(str(ve))
 
-            # RENTAL BOOKING EVENTS
-
             # PAYMENT PROCESSING EVENTS
+            if event == 'Book':
+                pc.new_rental(selected_vehicle, user)
+                window['-FIN_TAB2-'].update(values=pc.rental_data.values.tolist())
 
-            #
+                window['-P_UUID-'].update(pc.rental_list[-1][0])
+                window['-P_AMOUNT-'].update(pc.rental_list[-1][1])
+                window['-P_DATE-'].update(pc.rental_list[-1][2])
+                window['-P_PLATE-'].update(pc.rental_list[-1][3])
+                window[f'-VIEW-'].update(visible=False)
+                window[f'-PAY_PAGE-'].update(visible=True)
+
+            if event == '-P_CON-':
+                window[f'-VIEW-'].update(visible=True)
+                window[f'-PAY_PAGE-'].update(visible=False)
