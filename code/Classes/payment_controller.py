@@ -3,9 +3,11 @@
 # - Spreadsheet should have ongoing total expenses and revenues
 # - This class should be able to read from the spreadsheet into a data structure,
 # which can then be used to display in the GUI
-
+import datetime
 from .expense_payment import ExpensePayment
 from .rental_payment import RentalPayment
+from .vehicle import Vehicle
+from .user import User
 import pandas as pd
 import os
 
@@ -40,10 +42,21 @@ class PaymentController:
         self.expenses.append(temp)
 
     # method for adding rentals into the csv file
-    def new_rental(self, data):
+    def new_rental(self, vehicle, user):
         rnt = os.path.join(current_path, "../Data/Rentals.csv")
-        temp = RentalPayment(data[0], data[1], data[2], data[3])
-        arr = data
+        flt = os.path.join(current_path, "../Data/Fleet.csv")
+        fleet = pd.read_csv(flt)
+        fleet_list = fleet.values.tolist()
+        plate = vehicle.get_license_plate()
+
+        for i in fleet_list:
+            if plate == fleet_list[i][5]:
+                x = i
+        uuid = user.get_uuid()
+        price = fleet_list[x][6]
+
+        temp = RentalPayment(uuid, price, datetime.datetime.now(), plate)
+        arr = [uuid, price, datetime.datetime.now(), plate]
         arr = [arr]
         print(arr)
 
@@ -52,3 +65,5 @@ class PaymentController:
         self.rental_data.to_csv(rnt, mode='w', index=False)
         self.rentals.append(temp)
         self.rental_list = self.rental_data.values.tolist()
+
+
