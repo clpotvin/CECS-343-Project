@@ -6,7 +6,7 @@ pc = PaymentController()
 expense_data = pc.expense_data
 rental_data = pc.rental_data
 
-
+# the main window showing the financial view of rentals and expenses
 layout1 = [
     [sg.Text('Payments', font='Helvetica 20 bold underline', justification='center')],
     [sg.Table(values=pc.expense_list, headings=expense_data.columns.tolist(), auto_size_columns=False,
@@ -18,6 +18,7 @@ layout1 = [
     [sg.Button('Close', font='Helvetica 14')]
 ]
 
+# temporary window to add a rental payment manually
 layout2 = [
     [sg.Text('Add Rental Payment', font='Helvetica 20 bold underline')],
     [sg.Text('UUID:', font='Helvetica 16 bold', key='-RP_ID-'), sg.Push(),
@@ -32,6 +33,7 @@ layout2 = [
      sg.Button('Back', font='Helvetica 14', key='-RP_BACK-')]
 ]
 
+# window to add an expense payment
 layout3 = [
     [sg.Text('Add Expense Payment', font='Helvetica 20 bold underline')],
     [sg.Text('Amount:', font='Helvetica 16 bold', key='-EP_AMOUNT-'), sg.Push(),
@@ -44,6 +46,7 @@ layout3 = [
      sg.Button('Back', font='Helvetica 14', key='-EP_BACK-')]
 ]
 
+# an after purchase look at the information
 layout4 = [
     [sg.Text('Thank you for your purchase!', font='Helvetica 20 bold')],
     [sg.Text('UUID:', font='Helvetica 20 bold'), sg.Push(),
@@ -68,12 +71,12 @@ window = sg.Window('Club Penguin Car Rentals', layout)
 class PaymentInterface:
     def run(self):
         while True:
-
             event, values = window.read()
             print(event, values)
             if event == sg.WINDOW_CLOSED or event == 'Close':
                 break
 
+            # buttons that change the window
             if event == 'Add Rental Payment':
                 window[f'-COL{1}-'].update(visible=False)
                 window[f'-COL{2}-'].update(visible=True)
@@ -94,6 +97,7 @@ class PaymentInterface:
                 window[f'-COL{1}-'].update(visible=True)
                 window[f'-COL{4}-'].update(visible=False)
 
+            # enters the values and updates the table switching to layout 4
             if event == '-RP_ENTER-':
                 if values[0] and values[1] and values[2] and values[3] != '':
                     data = [values[0], values[1], values[2], values[3]]
@@ -110,6 +114,7 @@ class PaymentInterface:
                 else:
                     print("please fill in all required fields.")
 
+            # enters the values and updates the table
             if event == '-EP_ENTER-':
                 if values[4] and values[5] and values[6] != '':
                     data = [values[4], values[5], values[6]]

@@ -10,13 +10,11 @@ import pandas as pd
 import os
 
 current_path = os.path.abspath(os.path.dirname(__file__))
-#exp = os.path.join(current_path, "../Data/Expenses.csv")
-#rnt = os.path.join(current_path, "../Data/Rentals.csv")
-
 
 class PaymentController:
 
     def __init__(self):
+        # reads the csv files and creates a list that we can reference to later
         exp = os.path.join(current_path, "../Data/Expenses.csv")
         self.expense_data = pd.read_csv(exp)
         self.expenses = [ExpensePayment(n[0], n[1], n[2]) for n in self.expense_data.values]
@@ -27,6 +25,7 @@ class PaymentController:
         self.rentals = [RentalPayment(n[0], n[1], n[2], n[3]) for n in self.rental_data.values]
         self.rental_list = self.rental_data.values.tolist()
 
+    # method for adding expenses into the csv file
     def new_expense(self, data):
         exp = os.path.join(current_path, "../Data/Expenses.csv")
         temp = ExpensePayment(data[0], data[1], data[2])
@@ -39,6 +38,7 @@ class PaymentController:
         self.expense_data.to_csv(exp, mode='w', index=False)
         self.expenses.append(temp)
 
+    # method for adding rentals into the csv file
     def new_rental(self, data):
         rnt = os.path.join(current_path, "../Data/Rentals.csv")
         temp = RentalPayment(data[0], data[1], data[2], data[3])
