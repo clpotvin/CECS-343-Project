@@ -1,6 +1,5 @@
 # IMPORTS
 from Classes.user_interface import UserInterface
-from Classes.fleet_interface import FleetInterface
 import pandas as pd
 
 # GLOBAL VARIABLES
@@ -9,11 +8,8 @@ import pandas as pd
 
 
 def main():
-    # UI = UserInterface()
-    # UI.run()
-
-    FI = FleetInterface()
-    FI.run()
+    UI = UserInterface()
+    UI.run()
 
     #pwd = hash("helloW0rld!")
 

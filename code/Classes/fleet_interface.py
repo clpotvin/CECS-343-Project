@@ -1,4 +1,4 @@
-from fleet_controller import FleetController
+from .fleet_controller import FleetController
 import PySimpleGUI as sg
 import pandas as pd
 
@@ -11,7 +11,7 @@ fleet_data = fc.vehicle_data
 print(fleet_data)
 
 # Convert DataFrame to list of lists for Table widget
-data = fc.vehicle_list
+data = fc.vehicle_data.values.tolist()
 
 main_layout = [
     [sg.Table(values=data, headings=fleet_data.columns.tolist(), auto_size_columns=False,

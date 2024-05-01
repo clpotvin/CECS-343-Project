@@ -97,8 +97,8 @@ new_vehicle_success = [[sg.Text('Vehicle Creation Success!', font='Helvetica 30 
                     [sg.Push(), sg.Button('Go to Fleet Viewer', font='Helvetica 14', key='-BT_MGR-'), sg.Push()]]
 
 available_vehicles = [[sg.Text('Available Vehicles')],
-                      [sg.Table(values=fc.available_vehicles[['Make', 'Model','Trim', 'Year', 'Status']].values.tolist(),
-                                headings=['Make', 'Model', 'Trim', 'Year', 'Status'],
+                      [sg.Table(values=fc.vehicle_data[['Make', 'Model','Trim', 'Year', 'Daily Rental Price', 'Status']].values.tolist(),
+                                headings=['Make', 'Model', 'Trim', 'Year', 'Price Per Day', 'Status'],
                                 auto_size_columns=False,
                                 def_col_width=15,
                                 justification='center',
@@ -126,11 +126,11 @@ login_screen = [[sg.Image(source='CECS-343-Project/code/UI-Assets/Login_BG.png',
 
 layout = [[sg.Column(login_screen, visible=True, key='-LOGIN-'),
            sg.Column(new_user_success, visible=False, key='-NUSRS-'),
+           sg.Column(new_vehicle, key='-NVV-', visible=False),
+           sg.Column(new_vehicle_success, visible=False, key='-NVSRS-'),
            sg.Column(view, key='-VIEW-', visible=False)]]
 
 window = sg.Window('Club Penguin Car Rentals', layout,finalize=True)
-
-           #sg.Column(new_vehicle, key='-NVV-', visible=False), sg.Column(new_vehicle_success, visible=False, key='-NVSRS-')]]
 
 test = window['-LGNS-'].widget
 w1, h1 = window['IMAGE'].get_size()
@@ -241,14 +241,14 @@ class UserInterface:
                 window['-VF_YEAR-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][3])
                 window['-VF_STATUS-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][5])
             if event == '-ADD1-':
-                window[f'-MGR-'].update(visible=False)
+                window[f'-VIEW-'].update(visible=False)
                 window[f'-NVV-'].update(visible=True)
             if event == '-AV_CONFIRM-':
                 if values['-AV_MAKE-'] and values['-AV_MODEL-'] and values['-AV_TRIM-'] and\
                    values['-AV_YEAR-'] and values['-AV_LP-'] and values['-AV_STATUS-'] != '':
                     data = [values['-AV_MAKE-'], values['-AV_MODEL-'], values['-AV_TRIM-'],
                             values['-AV_YEAR-'], values['-AV_LP-'], values['-AV_STATUS-']]
-                    fc.new_vehicle(data)
+                    fc.add_vehicle(data)
                     window[f'-NVV-'].update(visible=False)
                     window[f'-NVSRS-'].update(visible=True)
                 else:
@@ -257,10 +257,10 @@ class UserInterface:
                     window[f'-AV_ERROR-'].update(visible=True)
             if event == '-BT_MGR-':
                 window[f'-NVSRS-'].update(visible=False)
-                window[f'-MGR-'].update(visible=True)
+                window[f'-VIEW-'].update(visible=True)
             if event == '-AV_BACK-':
                 window[f'-NVV-'].update(visible=False)
-                window[f'-MGR-'].update(visible=True)
+                window[f'-VIEW-'].update(visible=True)
 
 
             # AVAILABLE VEHICLES EVENTS
