@@ -33,6 +33,11 @@ class FleetController:
                                          date_str_to_date_obj(n[4]), 0) for n in self.reservation_data.values]
 
     def get_plate_by_index(self, index=-1):
+        """Get a vehicle license plate by vehicle index.
+
+        Returns:
+            str: vehicle license plate.
+        """
         if index == -1:
             print("index is invalid")
             return
