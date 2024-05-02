@@ -9,8 +9,8 @@ import pandas as pd
 
 def main():
     UI = UserInterface()
-
     UI.run()
+
     #pwd = hash("helloW0rld!")
 
     #if hash(input("Input password: ")) == pwd:
