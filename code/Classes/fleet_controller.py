@@ -32,6 +32,22 @@ class FleetController:
         self.reservations = [Reservation(n[0], self.search_by_plate(n[1]), n[2], date_str_to_date_obj(n[3]),
                                          date_str_to_date_obj(n[4]), 0) for n in self.reservation_data.values]
 
+    def get_plate_by_index(self, index=-1):
+        """Get a vehicle license plate by vehicle index.
+
+        Returns:
+            str: vehicle license plate.
+        """
+        if index == -1:
+            print("index is invalid")
+            return
+        current_vehicle = self.vehicles[index]
+        if current_vehicle:
+            print("Found index")
+            return current_vehicle.license_plate
+        else:
+            print("not found")
+
     def add_vehicle(self, data):
         if self.search_by_plate(data[4]):
             print("Cannot add vehicle. There is already a vehicle with the existing license plate.")
@@ -76,6 +92,19 @@ class FleetController:
 
         if debug:
             print("Sucessfully removed vehicle.")
+
+    def update_vehicle(self, data):
+        vehicle = self.search_by_plate(data[4])
+        if not vehicle:
+            print(f"Cannot find vehicle with matching license plate {data[4]}.")
+            return
+
+        df = self.vehicle_data
+        df.loc[df['License Plate'] == data[4], :] = data
+        self.vehicle_data = df
+        self.vehicle_data.to_csv("CECS-343-Project/code/Data/Vehicles.csv", mode='w', index=False)
+
+        print("Sucessfully updated vehicle.")
 
     def get_available_vehicles(self):
         """Get a list of available vehicles

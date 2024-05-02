@@ -6,6 +6,8 @@ import pandas as pd
 
 # FUNCTIONS
 
+import os
+
 
 def main():
     UI = UserInterface()

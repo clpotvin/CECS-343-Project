@@ -53,14 +53,14 @@ view_whole_fleet = [[sg.Text('All Vehicles')],
                                 def_col_width=15,
                                 justification='center',
                                 key='-TABLE1-', enable_events=True)],
-                      [sg.Text('Selected Vehicle:'), sg.Text(size=(20, 1), key='-SELECTED1-', enable_events=True, visible=True)],
+                      [sg.Text('Selected Vehicle:'), sg.Text(size=(80, 1), key='-SELECTED1-', enable_events=True, visible=True)],
                  [sg.InputText(font='Helvetica 14', size=[30, 1], key='-VF_MAKE-'),
                   sg.InputText(font='Helvetica 14', size=[30, 1], key='-VF_MODEL-')],
                  [sg.InputText(font='Helvetica 14', size=[30, 1], key='-VF_TRIM-'),
                   sg.InputText(font='Helvetica 14', size=[30, 1], key='-VF_YEAR-')],
                  [sg.InputText(font='Helvetica 14', size=[30, 1], key='-VF_STATUS-')],
-                    [sg.Button('Update', key='-UPDATE1-'), sg.Button('Remove', key='-REMOVE1-'), sg.Push(),
-                     sg.Button('Add New Vehicle', key='-ADD1-')]]
+                    [sg.Button('Update', key='-VF_UPDATE-'), sg.Button('Remove', key='-VF_REMOVE-'), sg.Push(),
+                     sg.Button('Add New Vehicle', key='-VF_ADD-')]]
 
 view_accounts = [[sg.Table(headings=uc.get_user_data().columns.tolist(), values=uc.get_user_data().values.tolist(),
                            key='-VAcc-', font='Helvetica 14', enable_click_events=True)],
@@ -99,12 +99,12 @@ new_vehicle_success = [[sg.Text('Vehicle Creation Success!', font='Helvetica 30 
                     [sg.Push(), sg.Button('Go to Fleet Viewer', font='Helvetica 14', key='-BT_MGR-'), sg.Push()]]
 
 available_vehicles = [[sg.Text('Available Vehicles')],
-                      [sg.Table(values=fc.vehicle_data[['Make', 'Model','Trim', 'Year', 'Daily Rental Price', 'Status']].values.tolist(),
-                                headings=['Make', 'Model', 'Trim', 'Year', 'Price Per Day', 'Status'],
+                      [sg.Table(values=fc.available_vehicles[['Make', 'Model','Trim', 'Year', 'Status']].values.tolist(),
+                                headings=['Make', 'Model', 'Trim', 'Year', 'Status'],
                                 auto_size_columns=False,
                                 def_col_width=15,
                                 justification='center',
-                                key='-TABLE-', enable_events=True,font='',visible=True)],
+                                key='-TABLE-', enable_events=True)],
                       [sg.Text('Selected Vehicle:'), sg.Text(size=(20, 1), key='-SELECTED-', enable_events=True, visible=True)],
                       [sg.Text('Start Date:'), sg.CalendarButton('Select', target='-START-', key='-CALENDAR_START-', format='%m-%d-%Y', enable_events=True),
                        sg.InputText(key='-START-', visible=True)],
@@ -124,9 +124,7 @@ payment_page = [
      sg.Text(pc.rental_list[-1][2], font='Helvetica 20 bold', key='-P_DATE-')],
     [sg.Text('License Plate:', font='Helvetica 20 bold'), sg.Push(),
      sg.Text(pc.rental_list[-1][3], font='Helvetica 20 bold', key='-P_PLATE-')],
-    [sg.Button('Continue', font='Helvetica 20 bold', key='-P_CON-')]
-
-]
+    [sg.Button('Continue', font='Helvetica 20 bold', key='-P_CON-')]]
 
 financial_view = [
     [sg.Text('Payments', font='Helvetica 20 bold underline', justification='center')],
@@ -256,16 +254,17 @@ class UserInterface:
 
             # ALL VEHICLES EVENT
             if event == '-TABLE1-':
-                selected_row = values['-TABLE1-'][0]
-                selected_vehicle = fc.vehicle_data.values[selected_row]
-                window['-SELECTED1-'].update(f"{selected_vehicle[0]} -  {selected_vehicle[1]} - {selected_vehicle[2]}")
-                window['-VF_MAKE-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][0])
-                window['-VF_MODEL-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][1])
-                window['-VF_TRIM-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][2])
-                window['-VF_YEAR-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][3])
-                window['-VF_STATUS-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][5])
-            if event == '-ADD1-':
-                window[f'-VIEW-'].update(visible=False)
+                if values['-TABLE1-']:
+                    selected_row = values['-TABLE1-'][0]
+                    selected_vehicle = fc.vehicle_data.values[selected_row]
+                    window['-SELECTED1-'].update(f"{selected_vehicle[0]} -  {selected_vehicle[1]} - {selected_vehicle[2]}")
+                    window['-VF_MAKE-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][0])
+                    window['-VF_MODEL-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][1])
+                    window['-VF_TRIM-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][2])
+                    window['-VF_YEAR-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][3])
+                    window['-VF_STATUS-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][5])
+            if event == '-VF_ADD-':
+                window[f'-MGR-'].update(visible=False)
                 window[f'-NVV-'].update(visible=True)
             if event == '-AV_CONFIRM-':
                 if values['-AV_MAKE-'] and values['-AV_MODEL-'] and values['-AV_TRIM-'] and\
@@ -275,6 +274,8 @@ class UserInterface:
                     fc.add_vehicle(data)
                     window[f'-NVV-'].update(visible=False)
                     window[f'-NVSRS-'].update(visible=True)
+                    window['-TABLE1-'].update(
+                        values=fc.vehicle_data[['Make', 'Model', 'Trim', 'Year', 'Status']].values.tolist())
                 else:
                     print("Please enter all required fields first.")
                     window[f'-AV_ERROR-'].update(visible=False)
@@ -285,7 +286,31 @@ class UserInterface:
             if event == '-AV_BACK-':
                 window[f'-NVV-'].update(visible=False)
                 window[f'-VIEW-'].update(visible=True)
-
+            if event == '-VF_REMOVE-':
+                if values["-TABLE1-"]:
+                    plate = fc.get_plate_by_index(values["-TABLE1-"][0])
+                    fc.delete_vehicle(plate)
+                    window['-TABLE1-'].update(
+                        values=fc.vehicle_data[['Make', 'Model', 'Trim', 'Year', 'Status']].values.tolist())
+                    window['-SELECTED1-'].update(f"Successfully removed vehicle.")
+                else:
+                    print('table not selected')
+                    window['-SELECTED1-'].update(f"Please select a row before removing.")
+            if event == '-VF_UPDATE-':
+                if values["-TABLE1-"]:
+                    plate = fc.get_plate_by_index(values["-TABLE1-"][0])
+                    if values['-VF_MAKE-'] and values['-VF_MODEL-'] and values['-VF_TRIM-'] and \
+                            values['-VF_YEAR-'] and plate and values['-VF_STATUS-'] != '':
+                        data = [values['-VF_MAKE-'], values['-VF_MODEL-'], values['-VF_TRIM-'],
+                                values['-VF_YEAR-'], plate, values['-VF_STATUS-']]
+                        fc.update_vehicle(data)
+                        window['-TABLE1-'].update(values=fc.vehicle_data[['Make', 'Model','Trim', 'Year', 'Status']].values.tolist())
+                        window['-SELECTED1-'].update(f"Successfully updated vehicle. Please select another row to make further updates.")
+                    else:
+                        print('stuff should be not empty')
+                else:
+                    print('table not selected')
+                    window['-SELECTED1-'].update(f"Please select a row before updating.")
 
             # AVAILABLE VEHICLES EVENTS
             if event == '-TABLE-':
