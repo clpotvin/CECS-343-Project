@@ -5,7 +5,7 @@ def load_fleet(filename):
     fleet_data = pd.read_csv(filename)
     return fleet_data
 
-filename = "view.csv"
+filename = "CECS-343-Project/code/Data/Vehicles.csv"
 fleet_data = load_fleet(filename)
 
 # Convert DataFrame to list of lists for Table widget

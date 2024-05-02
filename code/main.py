@@ -1,6 +1,5 @@
 # IMPORTS
 from Classes.user_interface import UserInterface
-from Classes.fleet_interface import FleetInterface
 import pandas as pd
 
 # GLOBAL VARIABLES

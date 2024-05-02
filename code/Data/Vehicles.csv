@@ -1,4 +1,201 @@
-Make,Model,Year,Trim,License Plate,Status
-Honda,Accord,2004,Sport,4FJG343,Available
-Kia,Forte,1999,LX,5TYH858,Maintenance
-Porsche,911,2010,Turbo,6GGD221,Rented
+Make,Model,Trim,Year,License Plate,Daily Rental Price,Status
+Toyota,Corolla,LE,2020,BAOY441,$68,Rented
+Audi,Q3,2.0T Sport,2022,7PUF483,$83,Rented
+Ford,Focus,Titanium,2019,FTMA717,$87,Rented
+Ford,Explorer,ST,2021,FCKY011,$85,Maintenance
+Nissan,Rogue,SL,2016,8WKH525,$95,Rented
+Kia,Soul,LX,2019,CVIA560,$73,Available
+Infiniti,QX60,LUXE,2019,AEIK122,$81,Rented
+Chevy,Spark,1LT,2024,9PLN751,$79,Rented
+Buick,Encore,Select,2022,BXGG029,$75,Available
+Nissan,Quest,SV,2018,BVYQ198,$80,Available
+Volkswagen,Jetta,SE,2017,DONX147,$75,Available
+Chevy,Spark,LS,2020,DBKD176,$68,Available
+Nissan,Rogue,SV,2024,CUOC036,$80,Rented
+Audi,Q3,2.0T Premium,2019,CSWJ881,$67,Available
+Nissan,Quest,S,2022,FOZM670,$73,Rented
+Buick,Encore,Select,2019,8ZWL729,$80,Available
+Kia,Sorento,EX,2017,CKGD056,$89,Available
+Ford,Edge,ST,2024,EIPC822,$87,Available
+Hyundai,Santa Fe,SE,2022,8BFA966,$72,Maintenance
+Ford,Edge,SE,2020,CPQX649,$72,Maintenance
+Kia,Forte,LX,2022,CUXS961,$70,Available
+Kia,Sorento,S,2018,FOPO024,$81,Rented
+Chevy,Spark,2LT,2024,DIMM313,$95,Available
+Chrysler,300,Touring,2021,BMOV852,$73,Rented
+GMC,Yukon,Denali,2021,7EUD514,$84,Rented
+Chevy,Spark,LS,2021,CUPZ257,$70,Available
+Jeep,Compass,Latitude,2024,CYAJ505,$85,Available
+Buick,Encore,Select,2018,9LCR787,$82,Rented
+Nissan,Armada,S,2018,9DLE883,$72,Rented
+Kia,Sorento,LX,2019,FCUR408,$74,Available
+Kia,Sorento,LX,2023,ABNB728,$70,Rented
+Hyundai,Santa Fe,XRT,2023,BUCH439,$92,Rented
+Chevy,Spark,LS,2022,FCTZ147,$75,Rented
+Audi,Q3,2.0T Premium,2020,EEYC334,$72,Rented
+Kia,Sorento,LX,2022,CHWK582,$69,Rented
+Hyundai,Santa Fe,XRT,2016,CPQC394,$88,Available
+Ford,Ecosport,SE,2023,ECUK231,$81,Rented
+Kia,Soul,GT-Line,2022,7NRN364,$90,Rented
+Volkswagen,Jetta,SEL,2021,EFSW689,$83,Available
+Nissan,Rogue,SL,2021,BOJT136,$90,Available
+Ford,Edge,SEL,2023,DAGR448,$83,Rented
+Kia,Forte,LX,2022,EASB230,$68,Available
+Ford,Explorer,XLT,2021,FEYW225,$75,Rented
+Chevy,Cruz,LS,2021,FLGB043,$76,Rented
+Ford,Focus,Edge,2018,DUTM533,$73,Available
+Buick,Encore,Select,2021,FJZR795,$81,Maintenance
+Nissan,Altima,SL,2020,DQTM478,$91,Available
+Nissan,Altima,SV,2021,DMDS717,$86,Available
+Toyota,Camry,LE,2023,AURV538,$69,Rented
+GMC,Yukon,SLT,2020,COGW723,$72,Available
+Kia,Soul,LX,2024,FACF408,$73,Maintenance
+Kia,Sorento,S,2020,CAVE560,$78,Rented
+Toyota,Corolla,SE,2022,7KOZ930,$75,Rented
+Chevy,Cruz,LS,2018,CKSX150,$85,Available
+Volkswagen,Jetta,SE,2020,ALAS103,$65,Rented
+Kia,Forte,LXS,2017,AFDM005,$79,Maintenance
+Jeep,Compass,Trailhawk,2022,EGHC643,$95,Rented
+Nissan,Rogue,SL,2016,AIHE645,$86,Rented
+Audi,Q3,2.0T Premium,2023,EIEP639,$75,Rented
+Jeep,Compass,Limited,2016,EFKZ396,$93,Available
+Kia,Sorento,EX,2018,FSTD820,$88,Maintenance
+Buick,Encore,Essence,2023,BCPX693,$95,Rented
+Chevy,Cruz,LS,2022,9NGO556,$85,Rented
+Ford,Ecosport,SE,2021,BEDA260,$75,Available
+Kia,Sorento,LX,2016,9UIY476,$68,Available
+Kia,Sorento,SX,2019,AGOF400,$100,Rented
+Toyota,Camry,SE,2018,BBJK185,$85,Available
+GMC,Yukon,AT4,2019,9WIQ781,$86,Available
+Toyota,Camry,LE,2022,AACU839,$68,Available
+Chevy,Tahoe,LT,2023,8FOS700,$81,Available
+Ford,Explorer,ST,2021,BAEK818,$95,Rented
+Ford,Focus,Titanium,2024,DNCG244,$88,Available
+Chrysler,300,Touring L,2018,7BZR737,$84,Available
+Volkswagen,Jetta,SEL,2024,DXFH334,$77,Maintenance
+Volkswagen,Polo,SE,2024,CEQG495,$71,Rented
+Toyota,Camry,SE,2016,DAGU445,$75,Available
+Hyundai,Santa Fe,SE,2024,CZPA102,$65,Available
+Jeep,Compass,Sport,2016,9NKB631,$71,Available
+Nissan,Altima,SR,2022,FVDE771,$83,Rented
+Nissan,Altima,S,2024,FUXJ974,$71,Rented
+Buick,Encore,Essence,2019,9DPQ331,$90,Rented
+GMC,Yukon,AT4,2017,BBPJ356,$86,Available
+Toyota,Camry,SE,2017,BLNV438,$83,Rented
+Volkswagen,Polo,BlueGT,2022,BSLQ234,$76,Available
+Volkswagen,Jetta,SE,2018,AERT456,$74,Rented
+Kia,Sorento,LX,2024,BTAS366,$73,Available
+Ford,Focus,Edge,2020,9UGM753,$74,Rented
+Audi,Q3,2.0T Premium,2024,DKIJ782,$70,Rented
+Chrysler,300,Touring L,2023,FIFH236,$83,Available
+Chevy,Spark,2LT,2023,EWHA995,$95,Available
+Jeep,Compass,Sport,2018,8SMG077,$75,Rented
+Chrysler,300,Touring L,2020,FHTG866,$83,Available
+Chrysler,300,Touring,2023,DVFL170,$70,Available
+Buick,Encore,Essence,2016,DJIA268,$88,Rented
+Kia,Forte,LXS,2023,AAAG831,$79,Available
+Nissan,Armada,S,2018,AYLI330,$65,Available
+Ford,Ecosport,SE,2020,AFGY643,$81,Available
+Chevy,Cruz,L,2020,7RAV513,$66,Rented
+Volkswagen,Polo,GTI,2019,9GGX082,$90,Rented
+GMC,Yukon,Denali,2018,7DMP066,$81,Rented
+Volkswagen,Polo,SE,2022,FQNS808,$68,Available
+Chevy,Cruz,LT,2021,AALF742,$89,Available
+Chevy,Tahoe,LT,2020,8YYA881,$80,Available
+Kia,Forte,LX,2017,7HOG319,$69,Rented
+Nissan,Armada,S,2024,8WGN017,$73,Rented
+Nissan,Rogue,S,2017,BTCI279,$68,Available
+Kia,Soul,S,2018,7APQ319,$81,Available
+Ford,Ecosport,SES,2024,FXVW218,$90,Rented
+GMC,Yukon,AT4,2016,9NXW107,$92,Maintenance
+Hyundai,Santa Fe,SE,2023,AFBB735,$67,Available
+Chevy,Spark,ACTIV,2024,ABOA076,$92,Available
+Nissan,Quest,S,2020,CWRF435,$75,Rented
+Ford,Ecosport,S,2018,FTOZ876,$73,Rented
+Chevy,Tahoe,LT,2019,ANWR021,$80,Available
+Ford,Ecosport,S,2023,EUYM215,$65,Maintenance
+Ford,Mustang,GT,2024,FXVO520,$74,Rented
+Chevy,Tahoe,LT,2021,EJUY495,$83,Available
+Ford,Ecosport,Titanium,2023,EAUA751,$93,Maintenance
+Volkswagen,Jetta,SEL,2022,ABME422,$85,Available
+Ford,Ecosport,SE,2023,AWAS323,$82,Available
+Nissan,Armada,SV,2023,EKAD899,$75,Available
+Buick,Encore,Select,2018,EUWU242,$81,Maintenance
+Ford,Mustang,GT Premium,2024,ERSM965,$79,Rented
+Ford,Ecosport,Titanium,2016,7XMA659,$86,Rented
+Nissan,Quest,S,2022,8KPH461,$69,Rented
+Ford,Ecosport,SE,2023,BZBS962,$77,Available
+Nissan,Altima,SV,2016,7KKX458,$91,Rented
+Ford,Ecosport,S,2024,CIVB005,$67,Available
+Ford,Ecosport,SE,2023,BPTB674,$77,Available
+Volkswagen,Jetta,SEL,2020,BKWZ479,$81,Rented
+Volkswagen,Polo,GTI,2020,ARKW693,$85,Available
+Jeep,Compass,Sport,2024,9LDY774,$71,Rented
+GMC,Yukon,SLT,2023,8NBL948,$73,Maintenance
+Toyota,Camry,SE,2023,FXDM421,$82,Available
+GMC,Yukon,Denali,2023,7BSC477,$82,Rented
+GMC,Yukon,Denali,2024,FZOI621,$76,Available
+Kia,Sorento,EX,2018,BSSK021,$90,Rented
+Chrysler,300,Touring,2016,9VQH926,$75,Maintenance
+GMC,Yukon,Denali,2021,DYDO149,$80,Maintenance
+Nissan,Quest,SL,2018,DZTU703,$94,Rented
+Ford,Focus,Edge,2021,EQON256,$69,Available
+Nissan,Altima,S,2024,EBXF566,$66,Available
+Buick,Encore,Select,2017,9WHO625,$85,Available
+Ford,Focus,Titanium,2018,8NMA869,$95,Available
+Ford,Edge,SE,2020,FAAH928,$74,Maintenance
+Nissan,Rogue,S,2016,ECKQ693,$72,Available
+Infiniti,QX60,LUXE,2024,CCDI157,$77,Rented
+Chevy,Spark,2LT,2023,FECO336,$95,Available
+Ford,Ecosport,SES,2018,9QUG766,$92,Available
+Audi,Q3,2.0T Premium,2023,CWOI888,$70,Rented
+Kia,Sorento,EX,2019,DHDA446,$95,Available
+Ford,Mustang,GT,2021,DHEG658,$72,Maintenance
+Jeep,Compass,Latitude,2017,FFYF780,$77,Available
+Nissan,Armada,SV,2018,AVYE338,$81,Rented
+Jeep,Compass,Latitude,2016,BRUA581,$78,Available
+Kia,Sorento,SX,2019,FXAH145,$96,Rented
+Nissan,Rogue,SV,2022,AOQA074,$75,Available
+Nissan,Altima,SL,2023,CJNZ445,$93,Rented
+Ford,Focus,Zetec,2019,7SRV090,$84,Available
+Ford,Edge,SEL,2017,9GMA719,$75,Rented
+Chevy,Tahoe,LS,2016,BIME522,$72,Rented
+Jeep,Compass,Latitude,2023,COCH580,$81,Available
+Chevy,Tahoe,LT,2019,DAFB655,$75,Available
+Ford,Explorer,XLT,2023,AUWR734,$75,Available
+Nissan,Armada,SL,2021,CDPL309,$92,Rented
+Kia,Sorento,SX,2019,DKUW744,$97,Maintenance
+Ford,Ecosport,S,2021,CPII222,$68,Available
+Infiniti,QX60,LUXE,2020,FYWL335,$85,Maintenance
+Nissan,Altima,S,2024,BDDH581,$74,Available
+Chevy,Cruz,L,2024,BLOD776,$67,Available
+Chrysler,300,Touring L,2019,BTPZ494,$80,Rented
+Kia,Soul,GT-Line,2020,BJXF302,$91,Rented
+Volkswagen,Polo,GTI,2018,CLWM859,$94,Available
+Volkswagen,Polo,BlueGT,2021,DETW097,$81,Rented
+Volkswagen,Polo,SE,2023,EXJE614,$69,Rented
+Nissan,Altima,S,2023,BGSO491,$74,Rented
+GMC,Yukon,AT4,2018,EQXI374,$85,Rented
+Nissan,Armada,SV,2017,CHGT736,$78,Available
+Chrysler,300,Touring,2018,APAR210,$66,Available
+Volkswagen,Jetta,SE,2023,7XYE541,$68,Rented
+Volkswagen,Polo,SE,2019,FMJX362,$67,Maintenance
+Chevy,Spark,ACTIV,2016,FASB691,$94,Rented
+Nissan,Armada,S,2022,BNNS431,$69,Available
+GMC,Yukon,AT4,2018,FXKY378,$93,Maintenance
+Nissan,Armada,S,2023,CVLY172,$66,Available
+Chevy,Tahoe,LT,2019,ERLB360,$75,Available
+Ford,Explorer,Limited,2020,CIOD016,$83,Rented
+Nissan,Rogue,SV,2024,9QDF573,$82,Available
+Nissan,Rogue,SL,2017,7TIZ223,$89,Rented
+Kia,Soul,GT-Line,2016,7JNY662,$91,Available
+Chrysler,300,Touring L,2020,BMXI972,$75,Maintenance
+Toyota,Camry,LE,2018,9QKS144,$72,Rented
+Jeep,Compass,Trailhawk,2016,DPSQ669,$95,Available
+Toyota,Camry,SE,2022,DTYU744,$81,Available
+Buick,Encore,Select,2017,7YXK597,$85,Maintenance
+Hyundai,Santa Fe,SEL,2018,ADZB287,$81,Available
+Volkswagen,Jetta,SE,2022,BEGX199,$68,Rented
+Ford,Mustang,GT Premium,2022,BPFZ992,$83,Available
+Infiniti,QX60,LUXE,2017,DUEK130,$85,Available
+Nissan,Quest,SL,2016,9AKY673,$91,Available

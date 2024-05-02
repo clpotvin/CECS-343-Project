@@ -11,7 +11,7 @@ fleet_data = fc.vehicle_data
 print(fleet_data)
 
 # Convert DataFrame to list of lists for Table widget
-data = fc.vehicle_data
+data = fc.vehicle_data.values.tolist()
 
 main_layout = [
     [sg.Table(values=data, headings=fleet_data.columns.tolist(), auto_size_columns=False,
@@ -71,9 +71,9 @@ class FleetInterface:
                 window[f'-COL{2}-'].update(visible=False)
 
             if event == '-AV_CONFIRM-':
-                if values[1] and values[2] and values[3] and values[4] and values[5] and values[6] != '':
-                    data = [values[1], values[2], values[3], values[4], values[5], values[6]]
-                    fc.new_vehicle(data)
+                if values[1] and values[2] and values[3] and values[4] and values[5] and values[6] and values[7] and values[8] != '':
+                    data = [values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8]]
+                    fc.add_vehicle(data)
                 else:
                     print("Please fill in all required fields.")
 

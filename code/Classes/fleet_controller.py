@@ -3,6 +3,8 @@ from .reservation import Reservation
 import datetime
 import pandas as pd
 
+debug = False
+
 
 def date_str_to_date_obj(date_string) -> datetime.date:
     format_str = '%m-%d-%Y'
@@ -22,54 +24,13 @@ class FleetController:
     """
 
     def __init__(self):
-        """Initialize an empty list of vehicles."""
+        """Initialize all class data members."""
         self.vehicle_data = pd.read_csv("CECS-343-Project/code/Data/Vehicles.csv")
-        self.vehicles = [Vehicle(n[0], n[1], n[2], n[3], n[4], n[5]) for n in self.vehicle_data.values]
+        self.vehicles = [Vehicle(n[0], n[1], n[2], n[3], n[4], float(n[5].strip('$')), n[6]) for n in self.vehicle_data.values]
         self.available_vehicles = self.vehicle_data[self.vehicle_data['Status'] == 'Available']
         self.reservation_data = pd.read_csv("CECS-343-Project/code/Data/Reservations.csv")
         self.reservations = [Reservation(n[0], self.search_by_plate(n[1]), n[2], date_str_to_date_obj(n[3]),
                                          date_str_to_date_obj(n[4]), 0) for n in self.reservation_data.values]
-
-    def add_vehicle(self, vehicle):
-        """Add vehicle to the list of the fleet"""
-        self.vehicles.append(vehicle)
-
-    def remove_vehicle(self, vehicle):
-        """Remove vehicle from the list of the fleet"""
-        self.vehicles.remove(vehicle)
-
-    def delete_vehicle(self, plate):
-        vehicle = self.search_by_plate(plate)
-        if not vehicle:
-            print(f"Cannot find vehicle with matching license plate {plate}.")
-            return
-
-        df = self.vehicle_data
-        df = df.drop(df[df['License Plate'] == plate].index)
-        self.vehicle_data = df
-        self.vehicle_data.to_csv("CECS-343-Project/code/Data/Vehicles.csv", mode='w', index=False)
-        self.remove_vehicle(vehicle)
-
-        print("Sucessfully removed vehicle.")
-
-
-    def new_vehicle(self, data):
-        if self.search_by_plate(data[4]):
-            print("Cannot add vehicle. There is already a vehicle with the existing license plate.")
-            return
-
-        temp = Vehicle(data[0], data[1], data[2], data[3], data[4], data[5])
-        data = [data]
-        print(data)
-        self.vehicles.append(temp)
-        print("Adding", data)
-
-        df = pd.DataFrame.from_records(data, columns=["Make", "Model", "Trim", "Year", "License Plate", "Status"])
-        self.vehicle_data = pd.concat([self.vehicle_data, df])
-        self.vehicle_data.to_csv("CECS-343-Project/code/Data/Vehicles.csv", mode='w', index=False)
-        self.vehicles.append(temp)
-
-        print("Sucessfully added vehicle.")
 
     def get_plate_by_index(self, index=-1):
         if index == -1:
@@ -81,6 +42,51 @@ class FleetController:
             return current_vehicle.license_plate
         else:
             print("not found")
+
+    def add_vehicle(self, data):
+        if self.search_by_plate(data[4]):
+            print("Cannot add vehicle. There is already a vehicle with the existing license plate.")
+            return
+
+        temp = Vehicle(data[0], data[1], data[2], data[3], data[4], data[5])
+        data = [data]
+
+        if debug:
+            print(data)
+
+        self.vehicles.append(temp)
+
+        if debug:
+            print("Adding", data)
+
+        df = pd.DataFrame.from_records(data, columns=["Make", "Model", "Trim", "Year", "License Plate", "Status"])
+        self.vehicle_data = pd.concat([self.vehicle_data, df])
+        self.vehicle_data.to_csv("CECS-343-Project/code/Data/Vehicles.csv", mode='w', index=False)
+        self.vehicles.append(temp)
+
+        if debug:
+            print("Sucessfully added vehicle.")
+
+    def remove_vehicle(self, vehicle):
+        """Remove vehicle from the Vehicle object list."""
+        self.vehicles.remove(vehicle)
+
+    def delete_vehicle(self, plate):
+        """Delete a vehicle from the database and remove it from the Vehicle object list."""
+        vehicle = self.search_by_plate(plate)
+        if not vehicle:
+            if debug:
+                print(f"Cannot find vehicle with matching license plate {plate}.")
+            return
+
+        df = self.vehicle_data
+        df = df.drop(df[df['ID'] == id].index)
+        self.vehicle_data = df
+        self.vehicle_data.to_csv("CECS-343-Project/code/Data/Vehicles.csv", mode='w', index=False)
+        self.remove_vehicle(vehicle)
+
+        if debug:
+            print("Sucessfully removed vehicle.")
 
     def update_vehicle(self, data):
         vehicle = self.search_by_plate(data[4])

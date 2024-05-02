@@ -4,33 +4,43 @@ import PySimpleGUI as sg
 import hashlib
 from .user_controller import UserController
 from .fleet_controller import FleetController
+from .payment_controller import PaymentController
 
 uc = UserController()
 fc = FleetController()
+pc = PaymentController()
 
-login = [[sg.Text('Login to Club Penguin Car Rentals', font='Helvetica 20 bold underline')],
+big_bold = 'Helvetica 16 bold'
+med_bold = 'Helvetica 14 bold'
+small_bold = 'Helvetica 12 bold'
+big_font = 'Helvetica 16'
+med_font = 'Helvetica 14'
+small_font = 'Helvetica 12'
+
+
+
+login =  [[sg.Text('Login', font='Helvetica 20 bold underline')],
          [sg.VPush()],
-         [sg.Text('Username:', font='Helvetica 16 bold', key='-LI_UNAME-'), sg.Push(),
-          sg.InputText(font='Helvetica 14', size=[30, 1])],
-         [sg.Text('Password:', font='Helvetica 16 bold', key='-LI_PASS-'), sg.Push(),
-          sg.InputText(font='Helvetica 14', size=[30, 1])],
-         [sg.VPush()],
-         [sg.Button('Login', font='Helvetica 14'), sg.Button('Create New Account', font='Helvetica 14'),
-          sg.Push(), sg.Button('Exit', font='Helvetica 14', key='-EX1-')]]
+         [sg.Text('Username:', font=big_bold, key='-LI_UNAME-'), sg.Push(),
+          sg.InputText(font=small_font, size=[30, 1])],
+         [sg.Text('Password:', font=big_bold, key='-LI_PASS-'), sg.Push(),
+          sg.InputText(font=small_font, size=[30, 1])],
+         [sg.VPush()],[sg.VPush()],
+         [sg.Button('Login', font=med_font),
+          sg.Push(), sg.Button('Exit', font=med_font, key='-EX1-')]]
 
 new_user = [[sg.Text('Create an Account', font='Helvetica 20 bold underline')],
             [sg.VPush()],
-            [sg.Text('First Name:', font='Helvetica 16 bold', key='-NU_FNAME-'), sg.Push(),
-             sg.InputText(font='Helvetica 14', size=[30, 1])],
-            [sg.Text('Last Name:', font='Helvetica 16 bold', key='-NU_LNAME-'), sg.Push(),
-             sg.InputText(font='Helvetica 14', size=[30, 1])],
-            [sg.Text('Username:', font='Helvetica 16 bold', key='-NU_UNAME-'), sg.Push(),
-             sg.InputText(font='Helvetica 14', size=[30, 1])],
-            [sg.Text('Password:', font='Helvetica 16 bold', key='-NU_PASS-'), sg.Push(),
-             sg.InputText(font='Helvetica 14', size=[30, 1])], [sg.VPush()],
-            [sg.Button('Create Account', font='Helvetica 14'), sg.Push(),
-             sg.Button('Back to Login', font='Helvetica 14'),
-             sg.Button('Exit', font='Helvetica 14', key='-EX2-')]]
+            [sg.Text('First Name:', font=big_bold, key='-NU_FNAME-'), sg.Push(),
+             sg.InputText(font=small_font, size=[30, 1])],
+            [sg.Text('Last Name:', font=big_bold, key='-NU_LNAME-'), sg.Push(),
+             sg.InputText(font=small_font, size=[30, 1])],
+            [sg.Text('Username:', font=big_bold, key='-NU_UNAME-'), sg.Push(),
+             sg.InputText(font=small_font, size=[30, 1])],
+            [sg.Text('Password:', font=big_bold, key='-NU_PASS-'), sg.Push(),
+             sg.InputText(font=small_font, size=[30, 1])], [sg.VPush()],
+            [sg.Button('Create Account', font=med_font), sg.Push(),
+             sg.Button('Exit', font=med_font, key='-EX2-')]]
 
 new_user_success = [[sg.Text('Account Creation Success!', font='Helvetica 30 bold')],
                     [sg.Push(), sg.Text('✅', font='Helvetica 150'), sg.Push()],
@@ -61,7 +71,7 @@ view_accounts = [[sg.Table(headings=uc.get_user_data().columns.tolist(), values=
                  [sg.InputText(font='Helvetica 14', size=[30, 1], key='-UUID-'),
                   sg.InputOptionMenu(['MANAGER', 'EMPLOYEE', 'CUSTOMER'], default_value=' ', size=[8, 1],
                                      key='-PERM-')],
-                 [sg.Button('Update Account', font='Helvetica 14'), sg.Button('Delete Account', font='Helvetica 14')]]
+                 [sg.Button('Update Account', font='Helvetica 12'), sg.Button('Delete Account', font='Helvetica 14')]]
 
 edit_vehicle = []
 
@@ -104,33 +114,51 @@ available_vehicles = [[sg.Text('Available Vehicles')],
 
 rent_vehicle = []
 
-payment_page = []
+payment_page = [
+    [sg.Text('Thank you for your purchase!', font='Helvetica 20 bold')],
+    [sg.Text('UUID:', font='Helvetica 20 bold'), sg.Push(),
+     sg.Text(pc.rental_list[-1][0], font='Helvetica 20 bold', key='-P_UUID-')],
+    [sg.Text('Amount:', font='Helvetica 20 bold'), sg.Push(),
+     sg.Text(pc.rental_list[-1][1], font='Helvetica 20 bold', key='-P_AMOUNT-')],
+    [sg.Text('Date:', font='Helvetica 20 bold'), sg.Push(),
+     sg.Text(pc.rental_list[-1][2], font='Helvetica 20 bold', key='-P_DATE-')],
+    [sg.Text('License Plate:', font='Helvetica 20 bold'), sg.Push(),
+     sg.Text(pc.rental_list[-1][3], font='Helvetica 20 bold', key='-P_PLATE-')],
+    [sg.Button('Continue', font='Helvetica 20 bold', key='-P_CON-')]]
 
-financial_view = []
+financial_view = [
+    [sg.Text('Payments', font='Helvetica 20 bold underline', justification='center')],
+    [sg.Table(values=pc.expense_list, headings=pc.expense_data.columns.tolist(), auto_size_columns=False,
+              max_col_width=25, justification='center', enable_click_events=True, key='-FIN_TAB1-'),
+     sg.Table(values=pc.rental_list, headings=pc.rental_data.columns.tolist(), auto_size_columns=False,
+              max_col_width=25, justification='center', enable_click_events=True, key='-FIN_TAB2-')],
+    #[sg.Button('Add Rental Payment', font='Helvetica 14',),
+    # sg.Button('Add Expense Payment', font='Helvetica 14')],
+    #[sg.Button('Close', font='Helvetica 14')]
+]
 
-manager_view = [[sg.TabGroup([[sg.Tab("View Fleet", view_whole_fleet, key='-MVF-'),
-                               sg.Tab("View Available Vehicles", available_vehicles, key='-MVAV-'),
-                               sg.Tab("View Accounts", view_accounts, key='-MVA-'),
-                               sg.Tab("View Financials", financial_view, key='-MVFi-')]], font='Helvetica 14',
-                             key='-MGRV-')], [sg.Button('Exit', key='-EX3-')]]
+view = [[sg.TabGroup([[sg.Tab("View Fleet", view_whole_fleet, key='-VF-'),
+                       sg.Tab("View Available Vehicles", available_vehicles, key='-VAV-'),
+                       sg.Tab("View Accounts", view_accounts, key='-VA-'),
+                       sg.Tab("View Financials", financial_view, key='-VFi-')]], font='Helvetica 14',
+                     key='-View')], [sg.Button('Exit', key='-EX3-')]]
 
-# employee_view = [[sg.TabGroup([[sg.Tab("View Fleet", view_whole_fleet),
-#                                sg.Tab("View Available Vehicles", available_vehicles),
-#                                sg.Tab("View Financials", financial_view)]], font='Helvetica 16', key='-EMPV-')]]
-#
-# customer_view = [[sg.TabGroup([[sg.Tab("View Available Vehicles", available_vehicles),
-#                                 sg.Tab("Book a Rental", view_accounts)]], font='Helvetica 16', key='-CSTV')]]
+login_screen = [[sg.Image(source='CECS-343-Project/code/UI-Assets/Login_BG.png', key='IMAGE')], [sg.TabGroup([[sg.Tab(layout=login, title='Login')], [sg.Tab(layout=new_user, title='Create New Account')]], font='Helvetica 14', key='-LGNS-')]]
 
-employee_view = []
-customer_view = []
-
-layout = [[sg.Column(login, key='-LGN-'), sg.Column(new_user, visible=False, key='-NUSR-'),
+layout = [[sg.Column(login_screen, visible=True, key='-LOGIN-'),
            sg.Column(new_user_success, visible=False, key='-NUSRS-'),
-           sg.Column(manager_view, key='-MGR-', visible=False),
-           sg.Column(employee_view, key='-EMP-', visible=False), sg.Column(customer_view, key='-CST-', visible=False),
-           sg.Column(new_vehicle, key='-NVV-', visible=False), sg.Column(new_vehicle_success, visible=False, key='-NVSRS-')]]
+           sg.Column(new_vehicle, key='-NVV-', visible=False),
+           sg.Column(new_vehicle_success, visible=False, key='-NVSRS-'),
+           sg.Column(payment_page, key='-PAY_PAGE-', visible=False),
+           sg.Column(view, key='-VIEW-', visible=False)]]
 
-window = sg.Window('Club Penguin Car Rentals', layout)
+window = sg.Window('Club Penguin Car Rentals', layout,finalize=True)
+
+test = window['-LGNS-'].widget
+w1, h1 = window['IMAGE'].get_size()
+w2, h2 = window['-LGNS-'].get_size()
+master = test.master
+master.place(x=(w1-w2)//6, y=(h1-h2)//3, bordermode=sg.tk.INSIDE)
 
 
 class UserInterface:
@@ -139,7 +167,7 @@ class UserInterface:
         while True:
             event, values = window.read()
             print(event, values)
-            if event in (None, '-EX1-', '-EX2-'):
+            if event in (None, '-EX1-', '-EX2-', '-EX3-'):
                 break
 
             # LOGIN SCREEN EVENTS
@@ -149,41 +177,48 @@ class UserInterface:
                     if uc.is_valid(values[0], values[1]):
                         user = uc.find_by_username(values[0])
                         if user is not False:
+                            window[0].update(value='')
+                            window[1].update(value='')
                             p_level = user.get_perm_level()
-                            window['-LGN-'].update(visible=False)
-                            window['-NUSR-'].update(visible=False)
+                            window['-LOGIN-'].update(visible=False)
                             window['-NUSRS-'].update(visible=False)
                             if p_level == 'Manager':
-                                window['-MGR-'].update(visible=True)
-                                window['-EMP-'].update(visible=False)
-                                window['-CST-'].update(visible=False)
+                                window['-VIEW-'].update(visible=True)
+                                window['-VF-'].update(visible=True)
+                                window['-VAV-'].update(visible=True)
+                                window['-VA-'].update(visible=True)
+                                window['-VFi-'].update(visible=True)
                             elif p_level == 'Employee':
-                                window['-MGR-'].update(visible=False)
-                                window['-EMP-'].update(visible=True)
-                                window['-CST-'].update(visible=False)
+                                window['-VIEW-'].update(visible=True)
+                                window['-VF-'].update(visible=True)
+                                window['-VAV-'].update(visible=True)
+                                window['-VA-'].update(visible=False)
+                                window['-VFi-'].update(visible=True)
                             else:
-                                window['-MGR-'].update(visible=False)
-                                window['-EMP-'].update(visible=False)
-                                window['-CST-'].update(visible=True)
+                                window['-VIEW-'].update(visible=True)
+                                window['-VF-'].update(visible=False)
+                                window['-VAV-'].update(visible=True)
+                                window['-VA-'].update(visible=False)
+                                window['-VFi-'].update(visible=False)
                         else:
                             print("Error: User not able to be found.")
-            if event == 'Create New Account':
-                window[f'-LGN-'].update(visible=False)
-                window[f'-NUSR-'].update(visible=True)
 
             # NEW USER SCREEN EVENTS
-            if event == 'Back to Login' or event == '-BT_LOGIN-':
-                window[f'-LGN-'].update(visible=True)
-                window[f'-NUSR-'].update(visible=False)
-                window[f'-NUSRS-'].update(visible=False)
             if event == 'Create Account':
                 if values[5] != '':
                     values[5] = int(hashlib.sha256(values[5].encode('utf-8')).hexdigest(), 16) % (10 ** 12)
                 if values[2] and values[3] and values[4] and values[5] != '':
                     arr = [values[2], values[3], values[4], values[5]]
                     if uc.new_user(arr):
-                        window[f'-NUSR-'].update(visible=False)
+                        window[f'-LOGIN-'].update(visible=False)
                         window[f'-NUSRS-'].update(visible=True)
+            if event == '-BT_LOGIN-':
+                window[2].update(value='')
+                window[3].update(value='')
+                window[4].update(value='')
+                window[5].update(value='')
+                window['-LOGIN-'].update(visible=True)
+                window['-NUSRS-'].update(visible=False)
 
             # MANAGER VIEW - VIEW ACCOUNTS TAB EVENTS
             if '-VAcc-' in event:
@@ -192,23 +227,30 @@ class UserInterface:
                 window['-UNAME-'].update(value=uc.get_user_data().values.tolist()[values['-VAcc-'][0]][2])
                 window['-PASS-'].update(value=uc.get_user_data().values.tolist()[values['-VAcc-'][0]][3])
                 window['-UUID-'].update(value=uc.get_user_data().values.tolist()[values['-VAcc-'][0]][4])
-                # window['-PERM-'].update(value=uc.find_by_username([values['-VAcc-'][0]][2]).get_perm_level())
             if event == 'Update Account':
-                if values['-PERM-'] == 'Customer' and values['-UUID-'] > 1000000000:
-                    if values['-UUID-'] > 2000000000:
-                        values['-UUID-'] -= 2000000000
+                if values['-PERM-'] == 'CUSTOMER' and int(values['-UUID-']) > 1000000000:
+                    if int(values['-UUID-']) > 2000000000:
+                        values['-UUID-'] = str(int(values['-UUID-']) - 2000000000)
                     else:
-                        values['-UUID-'] -= 1000000000
-                elif values['-PERM-'] == 'Employee' and values['-UUID-'] < 1000000000:
-                    values['-UUID-'] += 1000000000
-                elif values['-PERM-'] == 'Manager' and values['-UUID-'] < 2000000000:
-                    if values['-UUID-'] > 1000000000:
-                        values['-UUID-'] += 1000000000
+                        values['-UUID-'] = str(int(values['-UUID-']) - 1000000000)
+                elif values['-PERM-'] == 'EMPLOYEE' and int(values['-UUID-']) < 1000000000:
+                    values['-UUID-'] = str(int(values['-UUID-']) + 1000000000)
+                elif values['-PERM-'] == 'MANAGER' and int(values['-UUID-']) < 2000000000:
+                    if int(values['-UUID-']) > 1000000000:
+                        values['-UUID-'] = str(int(values['-UUID-']) + 1000000000)
                     else:
-                        values['-UUID-'] += 2000000000
-                uc.update_user(values['-FNAME-'], values['-LNAME-'], values['-UNAME-'],
-                               int(hashlib.sha256(values['-PASS-'].encode('utf-8')).hexdigest(), 16) % (10 ** 12),
-                               values['-UUID-'])
+                        values['-UUID-'] = str(int(values['-UUID-']) + 2000000000)
+
+                if int(hashlib.sha256(values['-PASS-'].encode('utf-8')).hexdigest(), 16) % (10 ** 12) == uc.user_data['Hashed Password'][uc.user_data['Username'].tolist().index(values['-UNAME-'])]:
+                    uc.update_user(values['-FNAME-'], values['-LNAME-'], values['-UNAME-'], values['-PASS-'], values['-UUID-'], uc.get_user_data().values.tolist()[values['-VAcc-'][0]][2])
+                else:
+                    uc.update_user(values['-FNAME-'], values['-LNAME-'], values['-UNAME-'], int(hashlib.sha256(values['-PASS-'].encode('utf-8')).hexdigest(), 16) % (10 ** 12), values['-UUID-'], uc.get_user_data().values.tolist()[values['-VAcc-'][0]][2])
+
+                window['-FNAME-'].update(value=uc.get_user_data().values.tolist()[values['-VAcc-'][0]][0])
+                window['-LNAME-'].update(value=uc.get_user_data().values.tolist()[values['-VAcc-'][0]][1])
+                window['-UNAME-'].update(value=uc.get_user_data().values.tolist()[values['-VAcc-'][0]][2])
+                window['-PASS-'].update(value=uc.get_user_data().values.tolist()[values['-VAcc-'][0]][3])
+                window['-UUID-'].update(value=uc.get_user_data().values.tolist()[values['-VAcc-'][0]][4])
 
             # ALL VEHICLES EVENT
             if event == '-TABLE1-':
@@ -229,7 +271,7 @@ class UserInterface:
                    values['-AV_YEAR-'] and values['-AV_LP-'] and values['-AV_STATUS-'] != '':
                     data = [values['-AV_MAKE-'], values['-AV_MODEL-'], values['-AV_TRIM-'],
                             values['-AV_YEAR-'], values['-AV_LP-'], values['-AV_STATUS-']]
-                    fc.new_vehicle(data)
+                    fc.add_vehicle(data)
                     window[f'-NVV-'].update(visible=False)
                     window[f'-NVSRS-'].update(visible=True)
                     window['-TABLE1-'].update(
@@ -240,10 +282,10 @@ class UserInterface:
                     window[f'-AV_ERROR-'].update(visible=True)
             if event == '-BT_MGR-':
                 window[f'-NVSRS-'].update(visible=False)
-                window[f'-MGR-'].update(visible=True)
+                window[f'-VIEW-'].update(visible=True)
             if event == '-AV_BACK-':
                 window[f'-NVV-'].update(visible=False)
-                window[f'-MGR-'].update(visible=True)
+                window[f'-VIEW-'].update(visible=True)
             if event == '-VF_REMOVE-':
                 if values["-TABLE1-"]:
                     plate = fc.get_plate_by_index(values["-TABLE1-"][0])
@@ -269,11 +311,6 @@ class UserInterface:
                 else:
                     print('table not selected')
                     window['-SELECTED1-'].update(f"Please select a row before updating.")
-
-
-
-
-
 
             # AVAILABLE VEHICLES EVENTS
             if event == '-TABLE-':
@@ -301,8 +338,18 @@ class UserInterface:
                 except ValueError as ve:
                     sg.popup(str(ve))
 
-            # RENTAL BOOKING EVENTS
-
             # PAYMENT PROCESSING EVENTS
+            if event == 'Book':
+                pc.new_rental(selected_vehicle, user)
+                window['-FIN_TAB2-'].update(values=pc.rental_data.values.tolist())
 
-            #
+                window['-P_UUID-'].update(pc.rental_list[-1][0])
+                window['-P_AMOUNT-'].update(pc.rental_list[-1][1])
+                window['-P_DATE-'].update(pc.rental_list[-1][2])
+                window['-P_PLATE-'].update(pc.rental_list[-1][3])
+                window[f'-VIEW-'].update(visible=False)
+                window[f'-PAY_PAGE-'].update(visible=True)
+
+            if event == '-P_CON-':
+                window[f'-VIEW-'].update(visible=True)
+                window[f'-PAY_PAGE-'].update(visible=False)
