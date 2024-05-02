@@ -11,13 +11,14 @@ class Reservation:
             end_time(datetime): The end time of the reservation
             late_fees(float): the late fees when customer returns the vehicle late
         """
-    def __init__(self, customer_uuid: int, vehicle: Vehicle, reservation_cost: float, start_time: datetime, end_time: datetime, late_fees: float):
+    def __init__(self, customer_uuid: int, vehicle: Vehicle, reservation_cost: float, start_date: datetime.date,
+                 end_date: datetime.date, late_fees: float):
         """Initialize the reservation class attributes"""
         self.customer_uuid = customer_uuid
         self.vehicle = vehicle
         self.reservation_cost = reservation_cost
-        self.start_time = start_time
-        self.end_time = end_time
+        self.start_date = start_date
+        self.end_date = end_date
         self.late_fees = late_fees
 
     def get_customer_uuid(self):
@@ -36,14 +37,14 @@ class Reservation:
         """Get the cost to of late fee after returning the vehicle"""
         return self.late_fees
 
-    def get_start_time(self):
+    def get_start_date(self):
         """Get the start time for the reservation"""
-        return self.start_time
+        return self.start_date
 
-    def get_end_time(self):
+    def get_end_date(self):
         """Get the end time for the reservation """
-        return self.end_time
+        return self.end_date
 
     def add_time(self, days):
         """Add more time to the reservation"""
-        self.end_time += timedelta
+        self.end_date += timedelta(days=days)
