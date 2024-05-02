@@ -16,8 +16,8 @@ class Vehicle:
         self.car_year = car_year
         self.car_trim = car_trim
         self.license_plate = car_license_plate
-        self.price = price
-        self.vehicle_status = vehicle_status
+        self.rental_price = price
+        self.status = vehicle_status
 
     def set_rental_price(self, price: float):
         """Set the rental price of the vehicle"""
@@ -45,7 +45,7 @@ class Vehicle:
 
     def get_license_plate(self):
         """Get the license plate of the vehicle"""
-        return self.car_license_plate
+        return self.license_plate
 
     def get_rental_price(self):
         """Get the rental price of the vehicle"""
@@ -53,5 +53,5 @@ class Vehicle:
 
     def get_status(self):
         """Get the status of the vehicle"""
-        return self.vehicle_status
+        return self.status
 
