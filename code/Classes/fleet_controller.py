@@ -49,11 +49,12 @@ class FleetController:
             print("not found")
 
     def add_vehicle(self, data):
+        """ Adds a vehicle to the database when taking a pandas Series as input """
         if self.search_by_plate(data[4]):
             print("Cannot add vehicle. There is already a vehicle with the existing license plate.")
             return
 
-        temp = Vehicle(data[0], data[1], data[2], data[3], data[4], data[5])
+        temp = Vehicle(data[0], data[1], data[2], data[3], data[4], data[5], data[6])
         data = [data]
 
         if debug:
@@ -64,7 +65,7 @@ class FleetController:
         if debug:
             print("Adding", data)
 
-        df = pd.DataFrame.from_records(data, columns=["Make", "Model", "Trim", "Year", "License Plate", "Status"])
+        df = pd.DataFrame.from_records(data, columns=["Make", "Model", "Trim", "Year", "License Plate", "Daily Rental Price", "Status"])
         self.vehicle_data = pd.concat([self.vehicle_data, df])
         self.vehicle_data.to_csv("CECS-343-Project/code/Data/Vehicles.csv", mode='w', index=False)
         self.vehicles.append(temp)
@@ -85,7 +86,7 @@ class FleetController:
             return
 
         df = self.vehicle_data
-        df = df.drop(df[df['ID'] == id].index)
+        df = df.drop(df[df['License Plate'] == plate].index)
         self.vehicle_data = df
         self.vehicle_data.to_csv("CECS-343-Project/code/Data/Vehicles.csv", mode='w', index=False)
         self.remove_vehicle(vehicle)
@@ -94,6 +95,7 @@ class FleetController:
             print("Sucessfully removed vehicle.")
 
     def update_vehicle(self, data):
+        """ Updates a vehicle to the database when taking a pandas Series as input """
         vehicle = self.search_by_plate(data[4])
         if not vehicle:
             print(f"Cannot find vehicle with matching license plate {data[4]}.")

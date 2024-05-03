@@ -58,7 +58,8 @@ view_whole_fleet = [[sg.Text('All Vehicles')],
                   sg.InputText(font='Helvetica 14', size=[30, 1], key='-VF_MODEL-')],
                  [sg.InputText(font='Helvetica 14', size=[30, 1], key='-VF_TRIM-'),
                   sg.InputText(font='Helvetica 14', size=[30, 1], key='-VF_YEAR-')],
-                 [sg.InputText(font='Helvetica 14', size=[30, 1], key='-VF_STATUS-')],
+                 [sg.InputText(font='Helvetica 14', size=[30, 1], key='-VF_PRICE-'),
+                  sg.InputText(font='Helvetica 14', size=[30, 1], key='-VF_STATUS-')],
                     [sg.Button('Update', key='-VF_UPDATE-'), sg.Button('Remove', key='-VF_REMOVE-'), sg.Push(),
                      sg.Button('Add New Vehicle', key='-VF_ADD-')]]
 
@@ -87,6 +88,8 @@ new_vehicle = [[sg.Text('Add a New Vehicle', font='Helvetica 20 bold underline')
         sg.InputText(font='Helvetica 14', key='-AV_YEAR-')],
        [sg.Text('License Plate:', font='Helvetica 14 bold'), sg.Push(),
         sg.InputText(font='Helvetica 14', key='-AV_LP-')],
+       [sg.Text('Daily Rental Price:', font='Helvetica 14 bold'), sg.Push(),
+        sg.InputText(font='Helvetica 14', key='-AV_PRICE-')],
        [sg.Text('Status:', font='Helvetica 14 bold'), sg.Push(),
         sg.InputText(font='Helvetica 14', key='-AV_STATUS-')],
        [sg.VPush()],
@@ -262,15 +265,16 @@ class UserInterface:
                     window['-VF_MODEL-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][1])
                     window['-VF_TRIM-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][2])
                     window['-VF_YEAR-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][3])
-                    window['-VF_STATUS-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][5])
+                    window['-VF_PRICE-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][5])
+                    window['-VF_STATUS-'].update(value=fc.vehicle_data.values.tolist()[values['-TABLE1-'][0]][6])
             if event == '-VF_ADD-':
-                window[f'-MGR-'].update(visible=False)
+                window[f'-VIEW-'].update(visible=False)
                 window[f'-NVV-'].update(visible=True)
             if event == '-AV_CONFIRM-':
                 if values['-AV_MAKE-'] and values['-AV_MODEL-'] and values['-AV_TRIM-'] and\
-                   values['-AV_YEAR-'] and values['-AV_LP-'] and values['-AV_STATUS-'] != '':
+                   values['-AV_YEAR-'] and values['-AV_LP-'] and values['-AV_PRICE-'] and values['-AV_STATUS-'] != '':
                     data = [values['-AV_MAKE-'], values['-AV_MODEL-'], values['-AV_TRIM-'],
-                            values['-AV_YEAR-'], values['-AV_LP-'], values['-AV_STATUS-']]
+                            values['-AV_YEAR-'], values['-AV_LP-'], values['-AV_PRICE-'], values['-AV_STATUS-']]
                     fc.add_vehicle(data)
                     window[f'-NVV-'].update(visible=False)
                     window[f'-NVSRS-'].update(visible=True)
@@ -300,9 +304,9 @@ class UserInterface:
                 if values["-TABLE1-"]:
                     plate = fc.get_plate_by_index(values["-TABLE1-"][0])
                     if values['-VF_MAKE-'] and values['-VF_MODEL-'] and values['-VF_TRIM-'] and \
-                            values['-VF_YEAR-'] and plate and values['-VF_STATUS-'] != '':
+                            values['-VF_YEAR-'] and plate and values['-VF_PRICE-'] and values['-VF_PRICE-'] != '':
                         data = [values['-VF_MAKE-'], values['-VF_MODEL-'], values['-VF_TRIM-'],
-                                values['-VF_YEAR-'], plate, values['-VF_STATUS-']]
+                                values['-VF_YEAR-'], plate, values['-VF_PRICE-'], values['-VF_PRICE-']]
                         fc.update_vehicle(data)
                         window['-TABLE1-'].update(values=fc.vehicle_data[['Make', 'Model','Trim', 'Year', 'Status']].values.tolist())
                         window['-SELECTED1-'].update(f"Successfully updated vehicle. Please select another row to make further updates.")
