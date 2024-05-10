@@ -2004,3 +2004,5 @@ Customer UUID,License Plate,Reservation Cost,Start Date,End Date
 <Classes.user.User object at 0x1344a5cd0>,AEIK122,$648.0,05-15-2024,05-23-2024
 <Classes.user.User object at 0x1368a1050>,9PLN751,$711.0,05-15-2024,05-24-2024
 <Classes.user.User object at 0x1328d9890>,7PUF483,$581.0,05-17-2024,05-24-2024
+<Classes.user.User object at 0x1369447d0>,CVIA560,$146.0,05-16-2024,05-18-2024
+<Classes.user.User object at 0x13664a9d0>,7PUF483,$747.0,05-15-2024,05-24-2024

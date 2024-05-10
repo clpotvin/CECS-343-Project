@@ -56,7 +56,7 @@ class FleetController:
         Returns:
             index: vehicle index.
         """
-        for idx in range(0, len(self.vehicles) - 1):
+        for idx in range(0, len(self.vehicles)):
             vehicle = self.vehicles[idx]
             if vehicle.license_plate == plate:
                 return idx
@@ -67,31 +67,33 @@ class FleetController:
         if self.search_by_plate(data[4]):
             return
 
-        temp = Vehicle(data[0], data[1], data[2], data[3], data[4], data[5])
+        temp = Vehicle(data[0], data[1], data[2], data[3], data[4], data[5], data[6])
         data = [data]
 
         self.vehicles.append(temp)
 
-        df = pd.DataFrame.from_records(data, columns=["Make", "Model", "Trim", "Year", "License Plate", "Status"])
+        df = pd.DataFrame.from_records(data, columns=["Make", "Model", "Trim", "Year", "License Plate", "Daily Rental Price", "Status"])
         self.vehicle_data = pd.concat([self.vehicle_data, df])
         self.vehicle_data.to_csv("CECS-343-Project/code/Data/Vehicles.csv", mode='w', index=False)
         self.vehicles.append(temp)
 
     def remove_vehicle(self, vehicle):
         """Remove vehicle from the Vehicle object list."""
-        self.vehicles.remove(vehicle)
+        self.vehicles.pop(vehicle)
 
     def delete_vehicle(self, plate):
         """Delete a vehicle from the database and remove it from the Vehicle object list."""
         vehicle = self.search_by_plate(plate)
         if not vehicle:
-            return
+            return False
 
+        idx = self.get_index_by_plate(plate)
         df = self.vehicle_data
-        df = df.drop(self.get_index_by_plate(plate))
+        df = df.drop(idx)
         self.vehicle_data = df
         self.vehicle_data.to_csv("CECS-343-Project/code/Data/Vehicles.csv", mode='w', index=False)
-        self.remove_vehicle(vehicle)
+        self.remove_vehicle(idx)
+        return True
 
     def update_vehicle(self, data):
         """Update a vehicle."""

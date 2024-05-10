@@ -37,7 +37,7 @@ class PaymentController:
         """Create a new expense payment"""
         exp = os.path.join(current_path, "../Data/Expenses.csv")
         temp = ExpensePayment(data[0], data[1], data[2])
-        arr = [[('$' + str(data[0])), data[1], data[2]]]
+        arr = [[('$' + ("{:.2f}".format(float(data[0])))), data[1], data[2]]]
 
         df = pd.DataFrame.from_records(arr, columns=["Amount", "Date", "Reason"])
         self.expense_data = pd.concat([self.expense_data, df])
@@ -60,7 +60,7 @@ class PaymentController:
         uuid = user.get_uuid()
 
         temp = RentalPayment(uuid, price, datetime.datetime.now().date(), vehicle.get_license_plate())
-        arr = [uuid, price, datetime.datetime.now(), vehicle.get_license_plate()]
+        arr = [uuid, price, datetime.datetime.now().date(), vehicle.get_license_plate()]
         arr = [arr]
 
         df = pd.DataFrame.from_records(arr, columns=["UUID", "Amount", "Date", "License Plate"])

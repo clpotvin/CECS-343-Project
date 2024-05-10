@@ -182,7 +182,7 @@ view = [[sg.TabGroup([[sg.Tab("View Fleet", view_whole_fleet, key='-VF-'),
 
 login_screen = [[sg.Image(source='CECS-343-Project/code/UI-Assets/Login_BG.png', key='IMAGE')], [
     sg.TabGroup([[sg.Tab(layout=login, title='Login')], [sg.Tab(layout=new_user, title='Create New Account')]],
-                font=med_font, key='-LGNS-')]]
+                font=med_font, key='-LGNS-', enable_events=True)]]
 
 layout = [[sg.Column(login_screen, visible=True, key='-LOGIN-'),
            sg.Column(new_user_success, visible=False, key='-NUSRS-'),
@@ -206,6 +206,7 @@ class UserInterface:
     def run(self):
         while True:
             event, values = window.read()
+            print(event, values)
             if event in (None, '-EX1-', '-EX2-', '-EX3-'):
                 break
 
@@ -224,6 +225,7 @@ class UserInterface:
                     values[1] = int(hashlib.sha256(values[1].encode('utf-8')).hexdigest(), 16) % (10 ** 12)
                     if uc.is_valid(values[0], values[1]):
                         user = uc.find_by_username(values[0])
+                        print(user)
                         if user is not False:
                             window[0].update(value='')
                             window[1].update(value='')
@@ -258,11 +260,11 @@ class UserInterface:
                     if uc.new_user(arr):
                         window[f'-LOGIN-'].update(visible=False)
                         window[f'-NUSRS-'].update(visible=True)
-            if event == '-BT_LOGIN-':
-                window[2].update(value='')
-                window[3].update(value='')
-                window[4].update(value='')
-                window[5].update(value='')
+                        window[2].update(value='')
+                        window[3].update(value='')
+                        window[4].update(value='')
+                        window[5].update(value='')
+            elif event == '-BT_LOGIN-':
                 window['-LOGIN-'].update(visible=True)
                 window['-NUSRS-'].update(visible=False)
 
@@ -293,8 +295,7 @@ class UserInterface:
                     else:
                         values['-UUID-'] = str(int(values['-UUID-']) + 2000000000)
 
-                if int(hashlib.sha256(values['-PASS-'].encode('utf-8')).hexdigest(), 16) % (10 ** 12) == \
-                        uc.user_data['Hashed Password'].values.tolist()[values['-VAcc-'][0]]:
+                if values['-PASS-'] == uc.user_data['Hashed Password'].values.tolist()[values['-VAcc-'][0]]:
                     uc.update_user(values['-FNAME-'], values['-LNAME-'], values['-UNAME-'], values['-PASS-'],
                                    values['-UUID-'], uc.get_user_data().values.tolist()[values['-VAcc-'][0]][2])
                 else:
@@ -368,10 +369,18 @@ class UserInterface:
             if event == '-VF_REMOVE-':
                 if values["-TABLE1-"]:
                     plate = fc.get_plate_by_index(values["-TABLE1-"][0])
-                    fc.delete_vehicle(plate)
-                    window['-TABLE1-'].update(
-                        values=fc.vehicle_data[['Make', 'Model', 'Trim', 'Year', 'Status']].values.tolist())
-                    window['-SELECTED1-'].update(f"Successfully removed vehicle.")
+                    if fc.delete_vehicle(plate):
+                        window['-TABLE1-'].update(
+                            values=fc.vehicle_data[['Make', 'Model', 'Trim', 'Year', 'Status']].values.tolist())
+                        window['-SELECTED1-'].update(f"Successfully removed vehicle.")
+                    else:
+                        window['-SELECTED1-'].update("Error: Failed to remove vehicle.")
+                    window['-VF_MAKE-'].update(value='')
+                    window['-VF_MODEL-'].update(value='')
+                    window['-VF_TRIM-'].update(value='')
+                    window['-VF_YEAR-'].update(value='')
+                    window['-VF_COST-'].update(value='')
+                    window['-VF_STATUS-'].update(value='')
                 else:
                     window['-SELECTED1-'].update(f"Please select a row before removing.")
             if event == '-VF_UPDATE-':
@@ -386,6 +395,12 @@ class UserInterface:
                             values=fc.vehicle_data[['Make', 'Model', 'Trim', 'Year', 'Status']].values.tolist())
                         window['-SELECTED1-'].update(
                             value="Successfully updated vehicle. Please select another row to make further updates.")
+                        window['-VF_MAKE-'].update(value='')
+                        window['-VF_MODEL-'].update(value='')
+                        window['-VF_TRIM-'].update(value='')
+                        window['-VF_YEAR-'].update(value='')
+                        window['-VF_COST-'].update(value='')
+                        window['-VF_STATUS-'].update(value='')
                     else:
                         sg.popup('Please fill all boxes.')
                 else:

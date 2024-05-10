@@ -22,7 +22,8 @@ class UserController:
     def new_user(self, d):
         """Create a new user account."""
         if d[2] not in self.user_data.values:
-            temp = User((d[0][0] + ' ' + d[0][1]))
+            temp = User((d[0] + ' ' + d[1]))
+            temp.display()
             temp.generate_uuid()
             arr = d
             arr.append(temp.uuid)
