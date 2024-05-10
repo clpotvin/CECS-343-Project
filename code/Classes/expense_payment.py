@@ -1,26 +1,37 @@
+from datetime import datetime
 
 
 class ExpensePayment:
+    """ Class that represents an expense payment
 
-  def __init__(self,expense_amount,date,reason):
-    self.expense_amount = expense_amount
-    self.date = date
-    self.reason = reason
+        Attributes:
+            expense_amount (float): Represents the dollar value of the expense
+            date (datetime.date): The date of the expense payment
+            reason (str): Reason for why expense payment occurred.
+    """
 
-  def get_expense_amount(self):
-    return self.expense_amount
+    def __init__(self, expense_amount: float, date: datetime.date, reason: str):
+        """Initialize the expense_payment class attributes"""
+        self.expense_amount = expense_amount
+        self.date = date
+        self.reason = reason
 
-  def get_expense_date(self):
-    return self.date
+    def get_expense_amount(self):
+        """Get the expense amount"""
+        return self.expense_amount
 
-  def get_reason(self):
-    return self.reason
+    def get_expense_date(self):
+        """Get the expense date"""
+        return self.date
 
-  def set_reason(self,reason):
-    self.reason = reason
+    def get_reason(self):
+        """Get the reason for the expense"""
+        return self.reason
 
-  def set_expense_amount(self,expense_amount):
-    self.expense_amount = expense_amount
+    def set_reason(self, reason):
+        """Set the reason for the expense"""
+        self.reason = reason
 
-
-  
+    def set_expense_amount(self, expense_amount):
+        """Set the expense amount"""
+        self.expense_amount = expense_amount

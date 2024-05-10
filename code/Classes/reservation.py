@@ -1,15 +1,17 @@
 from .vehicle import Vehicle
 from datetime import datetime, timedelta
+
+
 class Reservation:
     """ A class representing vehicle
 
         Attributes:
             customer_uuid (int): a unique set of numbers that are assigned to each customer
-            vehicle(vehicle): the vehicle object
-            reservation_cost(float): The price to make a reservation
-            start_time (datetime): The start time of the reservation
-            end_time(datetime): The end time of the reservation
-            late_fees(float): the late fees when customer returns the vehicle late
+            vehicle (vehicle): the vehicle object
+            reservation_cost (float): The price to make a reservation
+            start_date (datetime.date): The start time of the reservation
+            end_date (datetime.date): The end time of the reservation
+            late_fees (float): the late fees when customer returns the vehicle late
         """
     def __init__(self, customer_uuid: int, vehicle: Vehicle, reservation_cost: float, start_date: datetime.date,
                  end_date: datetime.date, late_fees: float):
@@ -22,7 +24,7 @@ class Reservation:
         self.late_fees = late_fees
 
     def get_customer_uuid(self):
-        """Get the customers unique set of numbers"""
+        """Get the customers UUID tied to the reservation"""
         return self.customer_uuid
 
     def get_vehicle(self):
@@ -48,3 +50,4 @@ class Reservation:
     def add_time(self, days):
         """Add more time to the reservation"""
         self.end_date += timedelta(days=days)
+        self.reservation_cost += (self.vehicle.get_rental_price() * days)

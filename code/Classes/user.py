@@ -20,6 +20,7 @@ class User:
         self.name = name
 
     def set_uuid(self, uuid):
+        """Manually set the UUID of the user."""
         self.uuid = uuid
 
     def generate_uuid(self):
@@ -35,6 +36,7 @@ class User:
         return self.uuid
 
     def get_perm_level(self):
+        """Returns a permission level based on the UUID of the User"""
         if 1000000000 < self.uuid < 2000000000:
             return 'Employee'
         elif self.uuid > 2000000000:

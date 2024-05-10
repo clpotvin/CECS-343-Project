@@ -17,6 +17,7 @@ class UserController:
         """Initialize all class data members."""
         self.user_data = pd.read_csv(users_f)
         self.users = [User(n[0] + ' ' + n[1], n[4]) for n in self.user_data.values]
+        self.current_user = None
 
     def new_user(self, d):
         """Create a new user account."""
@@ -26,7 +27,6 @@ class UserController:
             arr = d
             arr.append(temp.uuid)
             arr = [arr]
-            print(arr)
 
             df = pd.DataFrame.from_records(arr, columns=["First Name", "Last Name", "Username", "Hashed Password", "UUID"])
             self.user_data = pd.concat([self.user_data, df])
@@ -45,6 +45,7 @@ class UserController:
             for x in self.user_data.values:
                 if x[2] == username:
                     if x[3] == password:
+                        self.current_user = self.find_by_username(username)
                         return True
                     else:
                         return False

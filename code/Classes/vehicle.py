@@ -2,16 +2,17 @@ class Vehicle:
     """ A class representing vehicle
 
     Attributes:
-        car_make(str): Make of vehicle
-        car_model(str): The model of the vehicle
-        car_year (str): The year of the vehicle
-        car_trim(str): The trim of the vehicle
-        car_license_plate(str): The license number of the vehicle
-        price (float): The price of the vehicle
-        vehicle_status (str): Current status of the vehicle
+        make (str): Make of vehicle
+        model (str): The model of the vehicle
+        year (int): The year of the vehicle
+        trim (str): The trim of the vehicle
+        license_plate (str): The license number of the vehicle
+        price (float): The daily rental price of the vehicle
+        status (str): Current status of the vehicle
     """
     def __init__(self, car_make: str, car_model: str, car_trim: str, car_year: int, car_license_plate: int, price: float,
                  vehicle_status: str):
+        """Initialize the vehicle class attributes"""
         self.make = car_make
         self.model = car_model
         self.year = car_year
@@ -22,7 +23,7 @@ class Vehicle:
 
     def set_rental_price(self, price: float):
         """Set the rental price of the vehicle"""
-        self.rental_price = price
+        self.price = price
 
     def set_status(self, status: str):
         """Set the status of the vehicle"""
@@ -30,19 +31,19 @@ class Vehicle:
 
     def get_make(self):
         """Get the make of the vehicle"""
-        return self.car_make
+        return self.make
 
     def get_model(self):
         """Get the model of the vehicle"""
-        return self.car_model
+        return self.model
 
     def get_year(self):
         """Get the year of the vehicle"""
-        return self.car_year
+        return self.year
 
     def get_trim(self):
         """Get the trim of the vehicle"""
-        return self.car_trim
+        return self.trim
 
     def get_license_plate(self):
         """Get the license plate of the vehicle"""
@@ -50,7 +51,7 @@ class Vehicle:
 
     def get_rental_price(self):
         """Get the rental price of the vehicle"""
-        return self.rental_price
+        return self.price
 
     def get_status(self):
         """Get the status of the vehicle"""
