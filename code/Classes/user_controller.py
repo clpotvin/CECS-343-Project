@@ -83,3 +83,16 @@ class UserController:
             self.user_data.loc[idx, 'UUID'] = int(uuid)
             self.user_data.to_csv(users_f, mode='w', index=False)
 
+    def delete_user(self, username):
+        """Delete a user from the database and remove it from the User object list."""
+        user = self.find_by_username(username)
+        if not user:
+            return
+
+        idx = self.users.index(user)
+        df = self.user_data
+        df = df.drop(idx)
+        self.user_data = df
+        self.user_data.to_csv("CECS-343-Project/code/Data/Users.csv", mode='w', index=False)
+        self.users.pop(idx)
+

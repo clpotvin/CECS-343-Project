@@ -128,7 +128,8 @@ available_vehicles = [[sg.Table(values=[], auto_size_columns=False,
                        sg.CalendarButton('Select', target='-END-', key='-CALENDAR_END-', format='%m-%d-%Y',
                                          enable_events=True, font=med_font),
                        sg.InputText(key='-END-', visible=True, readonly=True,
-                                    disabled_readonly_background_color='white', font=med_font, size=(12, 1))],
+                                    disabled_readonly_background_color='white',
+                                    font=med_font, size=(12, 1))], [sg.VPush()],
                       [sg.Button('Search', font=med_font), sg.Button('Book', font=med_font)]]
 
 payment_page = [
@@ -161,9 +162,14 @@ add_expense = [
 financial_view = [
     [sg.Text('Payments', font='Helvetica 20 bold underline', justification='center')],
     [sg.Table(values=pc.expense_list, headings=pc.expense_data.columns.tolist(), auto_size_columns=False,
-              max_col_width=25, justification='center', enable_click_events=True, key='-FIN_TAB1-', font=med_font),
+              max_col_width=25, justification='center', enable_events=True, key='-FIN_TAB1-', font=med_font),
      sg.Table(values=pc.rental_list, headings=pc.rental_data.columns.tolist(), auto_size_columns=False,
-              max_col_width=25, justification='center', enable_click_events=True, key='-FIN_TAB2-', font=med_font)],
+              max_col_width=25, justification='center', enable_events=True, key='-FIN_TAB2-', font=med_font)],
+    [sg.InputText(font=med_font, size=(10, 1), key='-FIN_AMT-', readonly=True,
+                  disabled_readonly_background_color='white'),
+     sg.InputText(font=med_font, size=(10, 1), key='-FIN_DATE-', readonly=True,
+                  disabled_readonly_background_color='white')],
+    [sg.Multiline(font=med_font, size=(50, 2), wrap_lines=True, key='-FIN_RES-')],
     [sg.Button('Add Expense Payment', font=med_font)]
 ]
 
@@ -273,7 +279,7 @@ class UserInterface:
                     window['-PERM-'].update(value='EMPLOYEE')
                 else:
                     window['-PERM-'].update(value='CUSTOMER')
-            if event == 'Update Account':
+            elif event == 'Update Account':
                 if values['-PERM-'] == 'CUSTOMER' and int(values['-UUID-']) > 1000000000:
                     if int(values['-UUID-']) > 2000000000:
                         values['-UUID-'] = str(int(values['-UUID-']) - 2000000000)
@@ -301,6 +307,26 @@ class UserInterface:
                 window['-UNAME-'].update(value='')
                 window['-PASS-'].update(value='')
                 window['-UUID-'].update(value='')
+                window['-PERM-'].update(value='')
+                values['-VAcc-'] = []
+                window['-VAcc-'].update(values=uc.get_user_data().values.tolist(), select_rows=[])
+            elif event == 'Delete Account':
+                uc.delete_user(values['-UNAME-'])
+                window['-FNAME-'].update(value=' ')
+                window['-LNAME-'].update(value=' ')
+                window['-UNAME-'].update(value=' ')
+                window['-PASS-'].update(value='')
+                window['-UUID-'].update(value=' ')
+                window['-PERM-'].update(value=' ')
+                values['-VAcc-'] = []
+                window['-VAcc-'].update(values=uc.get_user_data().values.tolist(), select_rows=[])
+            else:
+                window['-FNAME-'].update(value=' ')
+                window['-LNAME-'].update(value=' ')
+                window['-UNAME-'].update(value=' ')
+                window['-PASS-'].update(value='')
+                window['-UUID-'].update(value=' ')
+                window['-PERM-'].update(value=' ')
                 values['-VAcc-'] = []
                 window['-VAcc-'].update(select_rows=[])
 
@@ -419,3 +445,11 @@ class UserInterface:
                 window['-EP-AMOUNT-'].update(value='')
                 window['-EP-DATE-'].update(value='')
                 window['-EP-RES-'].update(value='')
+            if event == '-FIN_TAB1-':
+                window['-FIN_AMT-'].update(value=pc.expense_data.values.tolist()[values['-FIN_TAB1-'][0]][0])
+                window['-FIN_DATE-'].update(value=pc.expense_data.values.tolist()[values['-FIN_TAB1-'][0]][1])
+                window['-FIN_RES-'].update(value=pc.expense_data.values.tolist()[values['-FIN_TAB1-'][0]][2])
+            else:
+                window['-FIN_AMT-'].update(value='')
+                window['-FIN_DATE-'].update(value='')
+                window['-FIN_RES-'].update(value='')
